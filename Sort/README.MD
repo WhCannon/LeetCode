@@ -14,6 +14,11 @@
 例如输入：1,2,3,4,5,6,7,0
 输出：7
 ```
+* [例2](#例2)
+```java
+ 给定一个数组arr， 和一个数num， 请把小于num的数放在数组的左边， 等于num的数放在数组的中间， 大于num的数放在数组的右边。
+ 要求额外空间复杂度O(1)， 时间复杂度O(N)
+```
 
 
 ## 例1
@@ -62,5 +67,57 @@ public class Solution {
         }
         return count%1000000007;
     }
+}
+```
+## 例2
+```java
+public class Test02 {
+	public static void sort(int[] arr, int num) {
+		int l = -1;
+		int r = arr.length;
+		int current = 0;
+		while (current < r) {
+			if (arr[current] < num) {
+				swap(arr, ++l, current++);
+			} else if (arr[current] > num) {
+				swap(arr, current, --r);
+			} else {
+				current++;
+			}
+		}
+	}
+
+	public static void swap(int[] arr, int a, int b) {
+		int temp = arr[a];
+		arr[a] = arr[b];
+		arr[b] = temp;
+	}
+
+	// for test
+	public static int[] generateArray() {
+		int[] arr = new int[20];
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = (int) (Math.random() * 5);
+		}
+		return arr;
+	}
+
+	// for test
+	public static void printArray(int[] arr) {
+		if (arr == null) {
+			return;
+		}
+		for (int i = 0; i < arr.length; i++) {
+			System.out.print(arr[i] + " ");
+		}
+		System.out.println();
+	}
+
+	public static void main(String[] args) {
+		int[] test = generateArray();
+		printArray(test);
+		sort(test, 2);
+		printArray(test);
+	}
 }
 ```
