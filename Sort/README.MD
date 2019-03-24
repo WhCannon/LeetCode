@@ -25,48 +25,48 @@
 使用归并排序
 ```java
 public class Solution {
-    public int InversePairs(int [] array) {
-        if (array == null || array.length < 2)
-            return 0;
-        int[] copy=new int[array.length];
-        int count= mergeSort(array, copy,0, array.length - 1);
-        return count;
-    }
-  
-    public static int mergeSort(int[] arr,int[] copy, int L, int R) {
-        if (L == R)
-            return 0;
-        int mid = L + ((R - L) >> 1);
-        int left=mergeSort(arr, copy,L, mid);
-        int right=mergeSort(arr,copy, mid + 1, R);
-        return (left+right+mergeCount(arr, copy,L, mid, R))%1000000007;
-    }
-  
-    public static int mergeCount(int[] arr,int[] copy, int l, int mid, int r) {
-        int count = 0;
-        int p1=l;
-        int p2=mid+1;
-        int i=0;
-        //int copy[]=new int[r-l+1];
-        while(p1<=mid && p2<=r){
-            if(arr[p1]<arr[p2]){
-                copy[i++]=arr[p1++];
-            }else{
-                copy[i++]=arr[p2++];
-                count = (count+mid-p1+1)%1000000007;
-            }
-        }
-        while(p1<=mid){
-            copy[i++]=arr[p1++];
-        }
-        while(p2<=r){
-            copy[i++]=arr[p2++];
-        }
-        for(i=0;i<r-l+1;i++){
-            arr[l+i]=copy[i];
-        }
-        return count%1000000007;
-    }
+	public int InversePairs(int[] array) {
+		if (array == null || array.length < 2)
+			return 0;
+		int[] copy = new int[array.length];
+		int count = mergeSort(array, copy, 0, array.length - 1);
+		return count;
+	}
+
+	public static int mergeSort(int[] arr, int[] copy, int L, int R) {
+		if (L == R)
+			return 0;
+		int mid = L + ((R - L) >> 1);
+		int left = mergeSort(arr, copy, L, mid); //使用递归，将数组分为左右两部分
+		int right = mergeSort(arr, copy, mid + 1, R); //使用递归，将数组分为左右两部分
+		return (left + right + mergeCount(arr, copy, L, mid, R)) % 1000000007;
+	}
+
+	public static int mergeCount(int[] arr, int[] copy, int l, int mid, int r) {
+		int count = 0;
+		int p1 = l; // 左侧第一个数
+		int p2 = mid + 1; // 右侧第一个数
+		int i = 0;
+		// int copy[]=new int[r-l+1];
+		while (p1 <= mid && p2 <= r) {
+			if (arr[p1] < arr[p2]) {
+				copy[i++] = arr[p1++];  // 左右对比，小的数放在辅助数组的左边，arr[p1] < arr[p2]不是逆序对
+			} else {
+				copy[i++] = arr[p2++]; // 左右对比，小的数放在辅助数组的左边
+				count = (count + mid - p1 + 1) % 1000000007;  // 当arr[p1]>arr[p2]时，因为数组是从小到大排列，表明arr[p1]到arr[mid]之间的数都大于arr[p2]
+			}
+		}
+		while (p1 <= mid) {
+			copy[i++] = arr[p1++];
+		}
+		while (p2 <= r) {
+			copy[i++] = arr[p2++];
+		}
+		for (i = 0; i < r - l + 1; i++) {
+			arr[l + i] = copy[i];
+		}
+		return count % 1000000007;
+	}
 }
 ```
 ## 例2
