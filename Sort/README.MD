@@ -70,6 +70,7 @@ public class Solution {
 }
 ```
 ## 例2
+类似快速排序
 ```java
 public class Test02 {
 	public static void sort(int[] arr, int num) {
