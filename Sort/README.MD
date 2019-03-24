@@ -73,16 +73,16 @@ public class Solution {
 ```java
 public class Test02 {
 	public static void sort(int[] arr, int num) {
-		int l = -1;
-		int r = arr.length;
-		int current = 0;
-		while (current < r) {
-			if (arr[current] < num) {
-				swap(arr, ++l, current++);
+		int l = -1; //代表<num的区域
+		int r = arr.length; //代表>num的区域
+		int current = 0; //代表当前的位置
+		while (current < r) { 
+			if (arr[current] < num) { 
+				swap(arr, ++l, current++); // l右边的数和当前数交换，<num的区域往右扩大一位
 			} else if (arr[current] > num) {
-				swap(arr, current, --r);
+				swap(arr, current, --r); // r左边的数和当前数交换，>num的区域往左边扩大一位，交换到当前位置的数需要再和num比较
 			} else {
-				current++;
+				current++; // 当前数和Num相等，就继续下一个数
 			}
 		}
 	}
