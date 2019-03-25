@@ -108,3 +108,42 @@ public static class ArrayStack {
 			}
 		}
 ```
+## 练习2
+```java
+public static class MyStack2 {
+		private Stack<Integer> stackData; // 一个栈正常的压数据
+		private Stack<Integer> stackMin; // 一个栈用来压最小值
+
+		public MyStack2() {
+			this.stackData = new Stack<Integer>();
+			this.stackMin = new Stack<Integer>();
+		}
+
+		public void push(int newNum) { // 压栈
+			if (this.stackMin.isEmpty()) {
+				this.stackMin.push(newNum);
+			} else if (newNum < this.getmin()) {
+				this.stackMin.push(newNum); // 如果添加的数小于stackMin的最小值，就压入
+			} else {
+				int newMin = this.stackMin.peek();
+				this.stackMin.push(newMin); // 否则就还压入原来的最小值
+			}
+			this.stackData.push(newNum); // 压入正常的数据栈
+		}
+
+		public int pop() { // 弹栈
+			if (this.stackData.isEmpty()) {
+				throw new RuntimeException("Your stack is empty.");
+			}
+			this.stackMin.pop();
+			return this.stackData.pop();
+		}
+
+		public int getmin() {
+			if (this.stackMin.isEmpty()) {
+				throw new RuntimeException("Your stack is empty.");
+			}
+			return this.stackMin.peek();
+		}
+	}
+```
