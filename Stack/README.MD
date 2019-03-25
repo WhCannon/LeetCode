@@ -154,5 +154,52 @@ public static class MyStack2 {
 ```
 ## 练习3
 ```java
+// 用2个队列实现栈结构
+		public static class TwoQueuesStack {
+			private Queue<Integer> data;
+			private Queue<Integer> help;
+
+			public TwoQueuesStack() {
+				data = new LinkedList<Integer>();
+				help = new LinkedList<Integer>();
+			}
+
+			public void push(int pushInt) {
+				data.add(pushInt); // 压栈
+			}
+
+			public int peek() {
+				if (data.isEmpty()) {
+					throw new RuntimeException("Stack is empty!");
+				}
+				while (data.size() != 1) {
+					help.add(data.poll());
+				}
+				int res = data.poll();
+				help.add(res);
+				swap();
+				return res;
+			}
+
+			public int pop() { // 弹栈
+				if (data.isEmpty()) {
+					throw new RuntimeException("Stack is empty!");
+				}
+				while (data.size() > 1) { // 将data队列中的数据加入help队列中，最后data中会只剩最后一个添加的数
+					help.add(data.poll());
+				}
+				int res = data.poll(); // 返回最后的这个数，就相当于后进先出
+				swap(); // 把2个队列交换
+				return res;
+			}
+
+			private void swap() {
+				Queue<Integer> tmp = help;
+				help = data;
+				data = tmp;
+			}
+
+		}
+
 
 ```
