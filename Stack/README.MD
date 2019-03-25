@@ -212,5 +212,45 @@ public static class MyStack2 {
 
 		}
 
+/*
+		用2个栈实现队列结构：
+		一个用来添加数据push，一个用来返回数据pop
+		把数据压入push栈，然后再一个一个弹出，添加入pop栈，此时pop栈顶就是第一个添加的数据
+		然后返回这个pop栈顶的数，就相当于先进先出。
+	 */
+	public static class TwoStacksQueue {
+		private Stack<Integer> stackPush; //用来添加数据
+		private Stack<Integer> stackPop; //用来返回数据
 
+		public TwoStacksQueue() {
+			stackPush = new Stack<Integer>();
+			stackPop = new Stack<Integer>();
+		}
+
+		public void push(int pushInt) {
+			stackPush.push(pushInt);
+		}
+
+		public int poll() { //返回pop栈顶
+			if (stackPop.empty() && stackPush.empty()) {
+				throw new RuntimeException("Queue is empty!");
+			} else if (stackPop.empty()) { //pop栈必须为空
+				while (!stackPush.empty()) { //push栈数据必须清空
+					stackPop.push(stackPush.pop());
+				}
+			}
+			return stackPop.pop();
+		}
+
+		public int peek() {
+			if (stackPop.empty() && stackPush.empty()) {
+				throw new RuntimeException("Queue is empty!");
+			} else if (stackPop.empty()) {
+				while (!stackPush.empty()) {
+					stackPop.push(stackPush.pop());
+				}
+			}
+			return stackPop.peek();
+		}
+	}
 ```
