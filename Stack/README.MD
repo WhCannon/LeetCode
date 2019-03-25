@@ -160,7 +160,12 @@ public static class MyStack2 {
 ```
 ## 练习3
 ```java
-// 用2个队列实现栈结构
+	/*  
+	 	用2个队列实现栈结构：
+	 	准备2个队列，一个用来正常的添加数据。
+		然后把这个队列的数据都添加入另一个辅助队列，余下最后一个数据（最后添加的那个数），然后返回，效果就相当于后进先出。
+		最后再把2个队列交换一下，继续这个过程。
+	*/
 		public static class TwoQueuesStack {
 			private Queue<Integer> data;
 			private Queue<Integer> help;
