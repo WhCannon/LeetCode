@@ -27,13 +27,13 @@ public static class Node {
 	}
 
 	public static Node reverseList(Node head) {
-		Node pre = null;
-		Node next = null;
+		Node pre = null;//记录head的前一个
+		Node temp = null; //记录head的后一个
 		while (head != null) {
-			next = head.next;
-			head.next = pre;
-			pre = head;
-			head = next;
+			temp=head.next;//先把head的下一个记录起来
+			head.next=pre; //让head指向前一个，也就是反转
+			pre=head;//前2个反转完成，让pre向后移动一位，来到head的位置
+			head=temp;//head也向后移动一位，来到temp的位置
 		}
 		return pre;
 	}
