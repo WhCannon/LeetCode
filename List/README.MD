@@ -1,6 +1,8 @@
 # 表
 ## 顺序表
 ## 链表
+  ### 双向链表
+    * [窗口结构](#窗口结构)
 ## [练习](#练习)
 
 
@@ -17,6 +19,56 @@
 	输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
 ```
 
+
+## 双向链表
+* 窗口结构
+```java
+窗口:此结构一端只用来放数据，另一端用来获取目前为止出现过的最大值（最小值）。可以用LinkedList来实现。
+窗口的最大值更新结构：当向此结构放数据时会检查一下结构中的已有数据，从时间戳最大的开始检查，
+如果检查过程中发现该数据小于即将放入的数据则将其弹出并检查下一个，直到即将放入的数据小于正在检查的数据或者结构中的数据都被弹出了为止，
+再将要放入的数据放入结构中并盖上时间戳。如此每次从该结构取数据时，都会返回结构中时间戳最小的数据，也是目前为止进入过此结构的所有数据中最大的那一个。
+此结构可以使用一个双端队列来实现，一端只用来放数据（放数据之前的检查过程可能会弹出其他数据），另一端用来获取目前为止出现过的最大值。
+public class Window {	
+	  private LinkedList<Integer> queue;
+	  public Window() {
+	    this.queue = new LinkedList<Integer>();
+	  } 
+	  //更新窗口最大值
+	  public void add(int i){
+	    while (!queue.isEmpty() &&  queue.getLast()<= i) {
+	      queue.pollLast();
+	    }
+	    queue.add(i);
+	  }
+	 
+	  //获取窗口最大值
+	  public int getMax() {
+	    if (!queue.isEmpty()) {
+	      return queue.peek();
+	    }
+	    return Integer.MIN_VALUE;
+	  }
+	 
+	  //使窗口最大值过期
+	  public void expireMaxValue() {
+	    if (!queue.isEmpty()) {
+	      queue.poll();
+	    }
+	  }
+	 
+	  public static void main(String[] args) {
+	    Window window = new Window();
+	    window.add(6);
+	    window.add(4);
+	    window.add(9);
+	    window.add(8);
+	    System.out.println(window.getMax());//9
+	    window.expireMaxValue();
+	    System.out.println(window.getMax());//8
+	  }
+
+}
+```
 
 
 ## 练习1
