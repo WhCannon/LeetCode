@@ -2,6 +2,7 @@
 ## [排序](https://github.com/WhCannon/LeetCode/tree/master/Sort/README.MD)
 ## [查找](https://github.com/WhCannon/LeetCode/tree/master/Search/README.MD)
 ## [动态规划](https://github.com/WhCannon/LeetCode/tree/master/DP/README.MD)
+## [数组矩阵](https://github.com/WhCannon/LeetCode/tree/master/Array/README.MD)
 ## [链表](https://github.com/WhCannon/LeetCode/tree/master/List/README.MD)
 ## [栈和队列](https://github.com/WhCannon/LeetCode/tree/master/Stack/README.MD)
 ## [字符串](https://github.com/WhCannon/LeetCode/tree/master/String/README.MD)
