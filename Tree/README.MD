@@ -15,7 +15,7 @@ TreeMap、TreeSet以及JDK1.8之后的HashMap底层都用到了红黑树。
 
 ## 练习
 * [练习1](#练习1)
-   ![题目](#https://github.com/WhCannon/LeetCode/blob/master/Tree/1.JPG)
+https://www.lintcode.com/problem/the-skyline-problem/description
 
 
 
