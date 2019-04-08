@@ -104,6 +104,8 @@ public class Solution {
         return list;
     }
 }
+
+用栈来实现：从头到尾遍历链表，依次将节点的val入栈，添加完后，再依次出栈加入list中
 ```
 
 ## 动态规划
