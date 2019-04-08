@@ -1,5 +1,6 @@
 # 剑指Offer
 ## [字符串](#字符串)
+## [链表](#链表)
 ## [动态规划](#动态规划)
 
 
@@ -14,10 +15,12 @@
 请实现一个函数，将一个字符串中的每个空格替换成“%20”。
 例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy
 
+String的replaceAll方法：
 public String replaceSpace(StringBuffer str) {
        return  str.toString().replaceAll(" ", "%20");
 }
 
+StringBuffer的append方法：
 public static String replaceSpace(StringBuffer str) {
 	       StringBuffer sb = new StringBuffer();
 	       for(int i=0;i<str.length();i++){
@@ -30,7 +33,7 @@ public static String replaceSpace(StringBuffer str) {
 	       return sb.toString();
 	}
     
-
+先计算出扩充后的新长度，然后从尾到头逐个添加，如果是空格，就直接添加3个字符，如果不是，就正常添加：
 public static String replaceSpace(StringBuffer str) {
         int count=0;
         for(int i=0;i<str.length();i++){
@@ -51,6 +54,43 @@ public static String replaceSpace(StringBuffer str) {
             }
         }
         return str.toString();
+    }
+```
+
+## 链表
+* 从尾到头打印链表
+```java
+输入一个链表，按链表值从尾到头的顺序返回一个ArrayList。
+
+先反转链表，再逐个添加：
+public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        if(listNode==null) return list;
+        ListNode next =null;
+        ListNode pre=null;
+        while(listNode.next!=null){
+            next=listNode.next;
+            listNode.next=pre;
+            pre=listNode;
+            listNode=next;
+        }
+        listNode.next=pre;
+        while(listNode!=null){
+            list.add(listNode.val);
+            listNode=listNode.next;
+        }
+        return list;
+    }
+
+ArrayList的add(index,value)方法，在Index位置添加，会把index及其之后的元素往后移动
+（如果在0位置，就相当于每次添加的在头部）：
+public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        ArrayList<Integer> list = new ArrayList<>();
+        while(listNode != null){
+            list.add(0,listNode.val);
+            listNode = listNode.next;
+        }
+        return list;
     }
 ```
 
