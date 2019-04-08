@@ -31,6 +31,27 @@ public static String replaceSpace(StringBuffer str) {
 	}
     
 
+public static String replaceSpace(StringBuffer str) {
+        int count=0;
+        for(int i=0;i<str.length();i++){
+            if(str.charAt(i)==' '){
+                count++;
+            }
+        }
+        int oldIndex=str.length()-1;
+        int newIndex=str.length()+2*count-1;
+        str.setLength(newIndex+1);
+        for(;oldIndex>=0;--oldIndex){
+            if(str.charAt(oldIndex)==' '){
+                str.setCharAt(newIndex--, '0');
+                str.setCharAt(newIndex--, '2');
+                str.setCharAt(newIndex--, '%');
+            }else{
+                str.setCharAt(newIndex--,str.charAt(oldIndex));
+            }
+        }
+        return str.toString();
+    }
 ```
 
 ## 动态规划
@@ -58,11 +79,3 @@ public class Solution {
         int n2=2;
         int count=0;
         for(int i=3;i<=target;i++){ //每个i台阶依赖i-1和i-2的方案
-            count=n1+n2;
-            n1=n2;
-            n2=count;
-        }
-        return n2;   
-    }
-}
-```
