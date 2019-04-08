@@ -79,3 +79,11 @@ public class Solution {
         int n2=2;
         int count=0;
         for(int i=3;i<=target;i++){ //每个i台阶依赖i-1和i-2的方案
+            count=n1+n2;
+            n1=n2;
+            n2=count;
+        }
+        return n2;   
+    }
+}
+```
