@@ -35,6 +35,24 @@ public double Power(double base, int exponent) {
   }
 }
 
+递归：
+public double Power(double base, int exponent) {
+        if(base==0) return 0;
+        if(exponent==0) return 1;
+        if(exponent==1) return base;
+        boolean flag = true;
+        if(exponent<0){
+            exponent=-exponent;
+            flag=false;
+        }
+        double res=Power(base,exponent>>1);
+        res*=res;
+        if((exponent&1)==1){
+            res*=base;
+        }
+        return flag?res:1/res;
+  }
+
 快速求幂算法：
 
 ```
