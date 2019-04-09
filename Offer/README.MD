@@ -1,5 +1,6 @@
 # 剑指Offer
 
+ ## [位运算](#位运算)
  ## [Array](#array)
  ## [String](#string)
  ## [LinkedList](#linkedlist)
@@ -9,6 +10,34 @@
 
 
 
+
+## 位运算
+* 整值的整数次方
+```java
+给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。
+
+循环：
+public double Power(double base, int exponent) {
+        if(exponent==0) return 1;
+        if(exponent==1) return base;
+        double sum=base;
+        if(exponent<0){
+            exponent=Math.abs(exponent);
+            for(int i=2;i<=exponent;i++){
+                sum*=base;
+            }
+            return 1/sum;
+        }else{
+            for(int i=2;i<=exponent;i++){
+            sum*=base;
+        }
+             return sum;
+  }
+}
+
+快速求幂算法：
+
+```
 
 
 
