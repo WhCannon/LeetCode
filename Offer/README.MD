@@ -248,4 +248,11 @@ public class Solution {
         return dp[target];
     }
 }
+
+数学法：
+public class Solution {
+    public int JumpFloorII(int target) {
+      return 1<<--target;
+      }
+}
 ```
