@@ -252,6 +252,24 @@ public class Solution {
 
 ## DP
 
+* 斐波那契数列
+```java
+大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）
+
+动态规划：
+public int Fibonacci(int n) {
+        if(n<=1) return n;
+        int m1=0;
+        int m2=1;
+        int sum=0;
+        for(int i=2;i<=n;i++){
+            sum=m1+m2;
+            m1=m2;
+            m2=sum;
+        }
+        return sum;
+    }
+```
 * 跳台阶
 ```java
 一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）
