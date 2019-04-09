@@ -54,7 +54,30 @@ public double Power(double base, int exponent) {
   }
 
 快速求幂算法：
-
+例如：
+3 ^ 999
+= 3 ^ (512 + 256 + 128 + 64 + 32 + 4 + 2 + 1)
+= (3 ^ 512) * (3 ^ 256) * (3 ^ 128) * (3 ^ 64) * (3 ^ 32) * (3 ^ 4) * (3 ^ 2) * 3
+把999转为2进制数：1111100111，其各位就是要乘的数。这提示我们利用求二进制位的算法：
+   public double Power(double base, int exponent) {
+        if(base==0) return 0;
+        if(exponent==0) return 1;
+        if(exponent==1) return base;
+        boolean flag = true;
+        double res=1;
+        if(exponent<0){
+            exponent=-exponent;
+            flag=false;
+        }
+        while(exponent>0){
+            if(exponent%2 ==1){
+                res*=base;
+            }
+            exponent=exponent>>1;
+            base*=base;
+        }
+        return flag?res:1/res;
+  }
 ```
 
 
