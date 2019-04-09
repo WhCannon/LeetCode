@@ -11,6 +11,7 @@
 
 
 ## String
+
 * 替换空格  
 ```java
 请实现一个函数，将一个字符串中的每个空格替换成“%20”。
@@ -59,6 +60,7 @@ public static String replaceSpace(StringBuffer str) {
 ```
 
 ## 链表
+
 * 从尾到头打印链表
 ```java
 输入一个链表，按链表值从尾到头的顺序返回一个ArrayList。
@@ -112,6 +114,7 @@ public class Solution {
 
 
 ## 栈和队列
+
 * 用2个栈实现队列
 ```java
 public class Solution {
@@ -161,6 +164,7 @@ public class Solution {
 
 
 ## DP
+
 * 跳台阶
 ```java
 一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）
