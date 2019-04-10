@@ -529,6 +529,42 @@ public class Solution {
         return map.get(pHead);//返回拷贝的第一个节点
     }
 }
+
+1、遍历链表，复制每个结点，如复制结点A得到A1，将结点A1插到结点A后面；B1查到B后面...
+2、重新遍历链表，复制老结点的随机指针给新结点，如A1.random = A.random.next;
+3、拆分链表，将链表拆分为原链表和复制后的链表
+public class Solution {
+    public RandomListNode Clone(RandomListNode pHead){
+        if(pHead==null) return null;
+        RandomListNode cur=pHead;
+         RandomListNode next=null;
+        while(cur!=null){
+            next=cur.next;  //存储下一个节点
+            cur.next=new  RandomListNode(cur.label); //让1的next指向1'，1'指向2,2指向2' ...
+            cur.next.next=next; //1'指向2
+            cur=next;
+        }
+        cur = pHead;
+        RandomListNode copy=null; 
+        while(cur!=null){ //每次拿出1个节点和它的复制节点，如1和1'，2和2'
+            next=cur.next.next;
+            copy=cur.next;
+	    //cur.rand表示原来的随机节点，cur.rand.next表示它的复制
+            copy.random=cur.random!=null?cur.random.next:null;
+            cur=next;
+        }
+         RandomListNode res=pHead.next;
+        cur=pHead;
+        while(cur!=null){ //把这个大链表分离
+            next=cur.next.next;
+            copy=cur.next; //cur.next表示是复制的节点
+            cur.next=next; //cur是原来的节点
+            copy.next=next!=null?next.next:null;
+            cur=next;
+        }
+        return res;
+    }
+}
 ```
 
 ## StackQueue
