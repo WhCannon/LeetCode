@@ -159,6 +159,7 @@ public boolean Find(int [][] array,int target) {
         return false;
     }
 ```
+
 * 调整数组顺序使奇数位于偶数前面
 ```java
 输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，
@@ -352,7 +353,8 @@ public ListNode FindKthToTail(ListNode head,int k) {
 
 * 反转链表
 ```java
-输入一个链表，反转链表后，输出新链表的表头:
+输入一个链表，反转链表后，输出新链表的表头
+
 public ListNode ReverseList(ListNode head) {
         if(head==null)
             return null;
@@ -379,7 +381,53 @@ public ListNode ReverseList(ListNode head) {
 
 * 合并两个排序的链表
 ```java
+输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
 
+递归：
+public ListNode Merge(ListNode list1,ListNode list2) {
+        if(list1==null) 
+            return list2;
+        if(list2==null)
+            return list1;
+        //ListNode res=null
+        //递归
+        if(list1.val<=list2.val){
+            //res=list1;
+            //res.next=Merge(list1.next,list2)
+             list1.next=Merge(list1.next,list2); //这里可以直接用list1作为res
+            return list1;
+        }else{
+            list2.next=Merge(list1,list2.next);
+            return list2;
+        }
+}
+
+非递归
+public ListNode Merge(ListNode list1,ListNode list2) {
+        if(list1==null)
+            return list2;
+        if(list2==null)
+            return list1;
+        ListNode head=new ListNode(-1);
+        ListNode current=head;
+        while(list1!=null && list2!=null){
+            if(list1.val<=list2.val){
+                current.next=list1;
+                list1=list1.next;
+            }else{
+                current.next=list2;
+                list2=list2.next;
+            }
+            current=current.next;
+        }
+        if(list1==null){
+                current.next=list2;
+            }
+        if(list2==null){
+                current.next=list1;
+            }
+        return head.next;
+    }
 ```
 
 
@@ -543,6 +591,7 @@ public class Solution {
       }
 }
 ```
+
 * 小矩形覆盖大矩形
 ```java
 我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？
