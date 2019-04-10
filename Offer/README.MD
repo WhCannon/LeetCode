@@ -3,7 +3,7 @@
   * [Array](#array)
   * [String](#string)
   * [LinkedList](#linkedlist)
-  * [Stack_Queue](#stackqueue)
+  * [Stack Queue](#stack#queue)
   * [DP](#dp)
 
 
