@@ -506,7 +506,30 @@ public ListNode Merge(ListNode list1,ListNode list2) {
         return head.next;
     }
 ```
+* 复杂链表的复制
+```java
+输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），
+返回结果为复制后复杂链表的head
 
+使用一个哈希表，来存储原节点和拷贝节点:
+public class Solution {
+    public RandomListNode Clone(RandomListNode pHead){
+        HashMap<RandomListNode, RandomListNode> map = new HashMap<>();
+        RandomListNode cur = pHead;
+        while(cur!=null){ //遍历链表，并拷贝，然后都存到哈希表中
+            map.put(cur,new RandomListNode(cur.label));
+            cur=cur.next;
+        }
+        cur=pHead;
+        while(cur!=null){
+            map.get(cur).next = map.get(cur.next);//连接拷贝的当前节点的next -> 拷贝的next
+            map.get(cur).random = map.get(cur.random);//连接拷贝的当前节点的rand -> 拷贝的rand
+            cur=cur.next;
+        }
+        return map.get(pHead);//返回拷贝的第一个节点
+    }
+}
+```
 
 ## StackQueue
 
