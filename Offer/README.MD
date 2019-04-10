@@ -1,11 +1,10 @@
 # 剑指Offer
-
- ## [位运算](#位运算)
- ## [Array](#array)
- ## [String](#string)
- ## [LinkedList](#linkedlist)
- ## [Stack_Queue](#Stack_Queue)
- ## [DP](#dp)
+  * [位运算](#位运算)
+  * [Array](#array)
+  * [String](#string)
+  * [LinkedList](#linkedlist)
+  * [Stack_Queue](#stackqueue)
+  * [DP](#dp)
 
 
 
