@@ -201,6 +201,7 @@ public class Solution {
 * 顺时针打印矩阵
 ```java
 输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字
+这个题，关键是要注意边界
 
 先打印最外面一层，再向里一层一层的打印，每一层都是从左-右-下-左-上的打印顺序:
 public static void spiralOrderPrint(int[][] matrix) {
@@ -244,6 +245,36 @@ public static void printEdge(int[][] m, int tR, int tC, int dR, int dC) {
 			}
 		}
 	}
+
+public ArrayList<Integer> printMatrix(int [][] matrix) {
+        ArrayList<Integer> list=new ArrayList<Integer>();
+        int row=matrix.length;
+        int col=matrix[0].length;
+        if(row==0||col==0) return null;
+        int top=0;
+        int left=0;
+        int bottom=row-1;
+        int right=col-1;
+        while(top<=bottom && left<=right){
+		//左到右
+            for(int i=left;i<=right;++i)
+                list.add(matrix[top][i]);
+		//上到下
+            for(int i=top+1;i<=bottom;++i)
+                list.add(matrix[i][right]);
+		//右到左
+            for(int i=right-1;i>=left && top<bottom;--i)
+                list.add(matrix[bottom][i]);
+		//下到上
+            for(int i=bottom-1;i>top && right>left;--i)
+                list.add(matrix[i][left]);
+            top++;
+            left++;
+            bottom--;
+            right--;
+        }
+        return list;
+    }
 ```
 
 
