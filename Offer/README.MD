@@ -304,6 +304,54 @@ public class Solution {
 
 用栈来实现：从头到尾遍历链表，依次将节点的val入栈，添加完后，再依次出栈加入list中
 ```
+* 链表中倒数第k个结点
+```java
+输入一个链表，输出该链表中倒数第k个结点
+
+使用栈压入，然后取出第k个：
+public ListNode FindKthToTail(ListNode head,int k) {
+        if(head==null) return null;
+        if(k<=0) return null;
+        Stack<ListNode> st = new Stack<ListNode>();
+        while(head!=null){
+            st.push(head);
+            head=head.next;
+        }
+        for(int i=1;i<k;i++){
+            if(!st.empty()){
+                 st.pop();
+            }else{
+               return null;
+            }
+        }
+        if(!st.empty()){
+            return st.peek();
+        }
+        return null;
+    }
+    
+定义快指针和慢指针。
+快指针先走 k-1 步，到达第 k 个节点。
+然后两指针同时齐步走，当快指针到达末尾时，此时慢指针就在倒数第k个节点上
+public ListNode FindKthToTail(ListNode head,int k) {
+        if(head==null) return null;
+        if(k<=0) return null;
+        ListNode fast = head;
+        ListNode slow = head;
+        for(int i=1;i<k;i++){
+            if(fast.next!=null){
+                fast=fast.next;
+            }else{
+                return null;
+            }
+        }
+        while(fast.next!=null){
+            fast=fast.next;
+            slow=slow.next;
+        }
+        return slow;
+    }
+```
 
 
 
