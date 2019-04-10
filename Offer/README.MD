@@ -209,11 +209,12 @@ public static void spiralOrderPrint(int[][] matrix) {
 		int dR = matrix.length - 1; // 右下角坐标
 		int dC = matrix[0].length - 1; // 右下角坐标
 		while (tR <= dR && tC <= dC) {
-			printEdge(matrix, tR++, tC++, dR--, dC--); // 先打印最外面一层，再把圈缩小一层，打印第二层……依次打印
+		// 先打印最外面一层，再把圈缩小一层，打印第二层……依次打印
+		    printEdge(matrix, tR++, tC++, dR--, dC--); 
 		}
 	}
 
-	public static void printEdge(int[][] m, int tR, int tC, int dR, int dC) {
+public static void printEdge(int[][] m, int tR, int tC, int dR, int dC) {
 		if (tR == dR) { // 如果行数相等，说明只有一行
 			for (int i = tC; i <= dC; i++) {
 				System.out.print(m[tR][i] + " ");
