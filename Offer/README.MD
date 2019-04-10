@@ -163,6 +163,44 @@ public boolean Find(int [][] array,int target) {
         return false;
     }
 ```
+* 调整数组顺序使奇数位于偶数前面
+```java
+输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，
+并保证奇数和奇数，偶数和偶数之间的相对位置不变。
+
+从头遍历，新开一个数组用来存偶数，然后再把偶数填入原数组：
+public void reOrderArray(int [] array) {
+        int[] temp=new int[array.length];
+        int c1=0;//偶数个数
+        int c2=0;//奇数个数
+        for(int i=0;i<array.length;i++){
+            if(array[i]%2==0){
+                temp[c1++]=array[i]; //存偶数
+            }else{
+                array[c2++]=array[i];//奇数直接挨个填
+            }
+        }
+        c1=0;
+        for(;c2<array.length;c2++){//把偶数填入原数组
+            array[c2]=temp[c1++];
+        }
+    }
+    
+类似冒泡排序，前偶后奇就交换
+public class Solution {
+    public void reOrderArray(int [] array) {
+        for (int i = 0; i < array.length;i++)
+                {
+                    for (int j = array.length - 1; j>i;j--)
+                    {
+                        if (array[j] % 2 == 1 && array[j - 1]%2 == 0)
+                        {
+                            swap(array,j, j-1);
+                        }
+                    }
+                }
+    }
+```
 
 
 
