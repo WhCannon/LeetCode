@@ -79,10 +79,6 @@ public double Power(double base, int exponent) {
   }
 ```
 
-
-
-
-
 ## Array
 
 * 旋转数组的最小数字
@@ -304,6 +300,7 @@ public class Solution {
 
 用栈来实现：从头到尾遍历链表，依次将节点的val入栈，添加完后，再依次出栈加入list中
 ```
+
 * 链表中倒数第k个结点
 ```java
 输入一个链表，输出该链表中倒数第k个结点
@@ -352,6 +349,7 @@ public ListNode FindKthToTail(ListNode head,int k) {
         return slow;
     }
 ```
+
 * 反转链表
 ```java
 输入一个链表，反转链表后，输出新链表的表头:
@@ -378,6 +376,7 @@ public ListNode ReverseList(ListNode head) {
         return pre;
     }
 ```
+
 * 合并两个排序的链表
 ```java
 
@@ -412,11 +411,9 @@ public class Solution {
 public class Solution {
     Stack<Integer> stack1 = new Stack<Integer>();
     Stack<Integer> stack2 = new Stack<Integer>();
-       
     public void push(int node) {
         stack1.push(node);
-    }
-       
+    }       
     public int pop() {
         while(!stack1.isEmpty()){
             stack2.push(stack1.pop());
@@ -454,6 +451,7 @@ public int Fibonacci(int n) {
         return sum;
     }
 ```
+
 * 跳台阶
 ```java
 一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）
