@@ -198,7 +198,52 @@ public class Solution {
                 }
     }
 ```
+* 顺时针打印矩阵
+```java
+输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字
 
+先打印最外面一层，再向里一层一层的打印，每一层都是从左-右-下-左-上的打印顺序:
+public static void spiralOrderPrint(int[][] matrix) {
+		int tR = 0; // 左上角坐标
+		int tC = 0; // 左上角坐标
+		int dR = matrix.length - 1; // 右下角坐标
+		int dC = matrix[0].length - 1; // 右下角坐标
+		while (tR <= dR && tC <= dC) {
+			printEdge(matrix, tR++, tC++, dR--, dC--); // 先打印最外面一层，再把圈缩小一层，打印第二层……依次打印
+		}
+	}
+
+	public static void printEdge(int[][] m, int tR, int tC, int dR, int dC) {
+		if (tR == dR) { // 如果行数相等，说明只有一行
+			for (int i = tC; i <= dC; i++) {
+				System.out.print(m[tR][i] + " ");
+			}
+		} else if (tC == dC) {// 如果列数相等，说明只有一列
+			for (int i = tR; i <= dR; i++) {
+				System.out.print(m[i][tC] + " ");
+			}
+		} else {
+			int curC = tC;
+			int curR = tR;
+			while (curC != dC) {// 当前列不等于右边的列
+				System.out.print(m[tR][curC] + " ");// 从左到右打印最上边的行
+				curC++;
+			}
+			while (curR != dR) {// 当前行不等于下边的行
+				System.out.print(m[curR][dC] + " ");// 从上到下打印最右边的列
+				curR++;
+			}
+			while (curC != tC) {
+				System.out.print(m[dR][curC] + " ");// 从右往左打印最下边的行
+				curC--;
+			}
+			while (curR != tR) {
+				System.out.print(m[curR][tC] + " ");// 从下到上打印最左边的列
+				curR--;
+			}
+		}
+	}
+```
 
 
 ## String
