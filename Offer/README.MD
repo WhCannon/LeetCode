@@ -3,7 +3,7 @@
   * [Array](#array)
   * [String](#string)
   * [LinkedList](#linkedlist)
-  * [Stack Queue](#stack#queue)
+  * [StackQueue](#stackqueue)
   * [DP](#dp)
 
 
@@ -269,7 +269,7 @@ public class Solution {
 
 
 
-## Stack_Queue
+## StackQueue
 
 * 用2个栈实现队列
 ```java
