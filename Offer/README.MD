@@ -551,7 +551,45 @@ public class Solution {
     }
 }
 ```
+* 包含min函数的栈
+```java
+定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））
 
+用2个栈，一个栈用来正常存储st1，另一个用来存当前的最小值st2。
+逻辑是：如果st2的栈顶大于要进栈的数，就st1、st2都添加；如果st2的栈顶小于这个数，st2就再添加一次自己的栈顶元素
+public class Solution {
+    Stack<Integer> st1=new Stack<Integer>();
+    Stack<Integer> st2=new Stack<Integer>();
+    public void push(int node) {
+        st1.push(node);
+        if(!st2.empty()){
+            if(node>st2.peek()){
+                st2.push(st2.peek());
+            }else{
+                st2.push(node);
+            }
+        }else{
+            st2.push(node);
+        }
+    }  
+    public void pop() {
+        if(st1.empty())
+            throw new RuntimeException("Your stack is empty.");
+        st2.pop();
+        st1.pop();
+    }   
+    public int top() {
+        if(st1.empty())
+            throw new RuntimeException("Your stack is empty.");
+        return st1.peek();
+    }   
+    public int min() {
+         if(st1.empty())
+            throw new RuntimeException("Your stack is empty.");
+         return st2.peek();
+    }
+}
+```
 
 
 
