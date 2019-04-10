@@ -352,7 +352,36 @@ public ListNode FindKthToTail(ListNode head,int k) {
         return slow;
     }
 ```
+* 反转链表
+```java
+输入一个链表，反转链表后，输出新链表的表头:
+public ListNode ReverseList(ListNode head) {
+        if(head==null)
+            return null;
+        ListNode temp=null;
+        ListNode pre=null;
+        while(head!=null){
+            temp=head.next;
+            head.next=pre;
+            pre=head;
+            head=temp;
+        }
+        return pre;
+    }
+    
+递归：
+public ListNode ReverseList(ListNode head) {
+        if(head==null || head.next==null) return head;
+        ListNode pre = ReverseList(head.next);
+        head.next.next=head;
+        head.next=null;
+        return pre;
+    }
+```
+* 合并两个排序的链表
+```java
 
+```
 
 
 ## StackQueue
