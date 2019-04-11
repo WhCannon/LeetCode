@@ -327,7 +327,19 @@ public class Solution {
 
 输入是数字，介于0～9之间。所以可以首先建立一个含有10个元素的数组，
 然后用输入的数字作为下标以统计每个数字出现的次数。再对这个数组与长度的一半进行比较，输出结果
-
+public class Solution {
+    public int MoreThanHalfNum_Solution(int [] array) {
+        int[] res=new int[10];
+        for(int i=0;i<array.length;i++){
+            res[array[i]]++;
+        }
+        for(int i=0;i<res.length;i++){
+            if(res[i]>array.length/2)
+                return i;
+        }
+        return 0;
+    }
+}
 ```
 
 ## String
