@@ -298,9 +298,32 @@ public ArrayList<Integer> printMatrix(int [][] matrix) {
 遇到不相同元素，即为敌人，同归于尽,count--；
 当遇到count为0的情况，又以新的i值作为守阵地的士兵，继续下去，到最后还留在阵地上的士兵，有可能是主元素。
 再加一次循环，记录这个士兵的个数看是否大于数组一半即可
-
-
-
+public class Solution {
+    public int MoreThanHalfNum_Solution(int [] array) {
+        if(array==null || array.length==0) return 0;
+        int count = 1;
+        int aim=0;
+        for(int i=1;i<array.length;i++){
+            if(count==0){
+                count = 1;
+                aim=i;
+            }else if(array[aim]==array[i]){
+                count++;
+            }else {
+                count--;
+            }
+        }
+        count = 0;
+        for(int i=0;i<array.length;i++){
+                if(array[i]==array[aim])
+                    count++;
+                }
+        if(count>array.length/2){
+                return array[aim];
+           }
+        return 0;
+    }
+}
 
 输入是数字，介于0～9之间。所以可以首先建立一个含有10个元素的数组，
 然后用输入的数字作为下标以统计每个数字出现的次数。再对这个数组与长度的一半进行比较，输出结果
