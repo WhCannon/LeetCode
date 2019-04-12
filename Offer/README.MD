@@ -502,7 +502,30 @@ public class Solution {
 }
 
 直接用优先级队列实现大根堆结构：
-
+public class Solution {
+    public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
+        ArrayList<Integer> list = new ArrayList<>();
+        if(input==null || input.length==0 || k>input.length || k==0) return list;
+        PriorityQueue<Integer> queue = new PriorityQueue<>(k,new Comparator<Integer>(){
+            public int compare(Integer a,Integer b){
+                return b-a;
+            }
+        });
+        for(int i=0;i<k;i++){
+            queue.offer(input[i]);
+        }
+        for(int i=k;i<input.length;i++){
+            if(queue.peek()>input[i]){
+                queue.poll();
+                queue.offer(input[i]);
+            }
+        }
+        for(Integer i:queue ){
+            list.add(i);
+        }
+        return list;
+    }
+}
 ```
 
 ## String
