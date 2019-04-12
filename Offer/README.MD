@@ -442,7 +442,64 @@ public class Solution {
 }
 
 建立大根堆，i位置的数比堆顶小，就移除堆顶，添加这个数：
-
+public class Solution {
+    public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
+        ArrayList<Integer> list = new ArrayList<>();
+        if(input==null || input.length==0 || k>input.length || k==0) return list;
+        int[] heap = new int[k];
+        for(int i=0;i!=k;i++){
+            heapInsert(heap,input[i],i);//0-k建立大根堆
+        }
+        for(int i=k;i!=input.length;i++){//再从k开始逐个比较，如果比大根堆的堆顶小，就替换这个堆顶，再调整成大根堆
+            if(heap[0]>input[i]){
+                heap[0]=input[i]; //如果比大根堆的堆顶小，就替换这个堆顶
+                heapSort(heap,0,k);//再调整成大根堆
+            }
+        }
+        for(int i=0;i!=heap.length;i++){
+            list.add(heap[i]);
+        }
+        return list;
+         
+    }
+    public void heapInsert(int[] arr,int val,int i){ //建立大根堆
+        arr[i] = val;
+        while(i!=0){
+            int parent = (i-1)/2;
+            if(arr[parent] < arr[i]){
+                int temp=arr[parent];
+                arr[parent] = arr[i];
+                arr[i]=temp;
+                i=parent;
+            }else{
+                break;
+            }
+        }
+    }  
+    public void heapSort(int[] arr,int index,int size){//调整大根堆的过程，与左右子树比较
+        int left = 2*index+1;
+        int right= 2*index+2;
+        int largest = index;
+        while(left<size){
+            if(arr[index]<arr[left]){
+                largest = left;
+            }
+            if(right<size && arr[right]>arr[largest]){
+                largest = right;
+            }
+            if(largest!=index){
+                int temp=arr[index];
+                arr[index] = arr[largest];
+                arr[largest]=temp;
+            }else{
+                break;
+            }
+            index=largest;
+            left = 2*index+1;
+            right=2*index+2;
+        }
+    }
+}
 
 直接用优先级队列实现大根堆结构：
 
