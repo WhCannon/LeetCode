@@ -382,7 +382,26 @@ public class Solution {
 
 
 类似冒泡排序，每次把最小的数放到最后，放k个就可以返回，不需要全部排序：
-
+public class Solution {
+    public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
+        ArrayList<Integer> list = new  ArrayList<>();
+        if(input==null || input.length==0 || k>input.length ) return list;
+        for(int i=0;i<k;i++){
+            for(int j=1;j<input.length-i;j++){
+                if(input[j-1]<input[j]){
+                    swap(input,j-1,j);
+                }
+            }
+            list.add(input[input.length-1-i]);
+        }
+        return list;
+    }
+    public void swap(int[] arr,int i,int j){
+        int temp = arr[i];
+        arr[i]=arr[j];
+        arr[j]=temp;
+    }
+}
 ```
 
 ## String
