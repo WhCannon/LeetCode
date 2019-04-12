@@ -305,7 +305,23 @@ public class Solution {
 
 将数组排序之后，相同的数字都在相邻位置，
 直接判断数组当前位置的数字与（数组位置+数组一半长度位置）的数字是否相等，相等则输出该数字。
-
+public class Solution {
+    public int MoreThanHalfNum_Solution(int [] array) {
+        if(array==null || array.length==0) return 0;
+        Arrays.sort(array);
+        int L=0;
+        int R=L+array.length/2;
+        while(R<array.length){
+            if(array[L]==array[R]){
+                return array[L];
+            }else{
+                L++;
+                R++;
+            }
+        }
+        return 0;           
+    }
+}
 
 采用阵地攻守的思想：
 第一个数字作为第一个士兵，守阵地；count = 1；遇到相同元素，count++;
