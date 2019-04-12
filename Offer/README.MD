@@ -379,7 +379,48 @@ public class Solution {
 
 
 使用快速排序，如果等于区域包含k位置，就返回0-k位置的数：
-
+public class Solution {
+    public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
+        ArrayList<Integer> list = new ArrayList<>();
+        if(input==null || input.length==0 || k>input.length) return list;
+        int L=0;
+        int R=input.length-1;
+        while(L<=R){
+            int[] res=partition(input,L,R);//获得等于区域的下标
+            if(k-1>=res[0] && k-1<=res[1]){ //如果k-1（表示第k小的数的下标）位于等于区域，直接添加0-k位置的数即可
+                for(int i=0;i<k;i++){
+                        list.add(input[i]);
+                }
+                return list;
+            }else if(k-1<res[0]){
+                    R=res[0]-1;
+            }else if(k-1>res[1]){
+                    L=res[1]+1;
+                }
+        }
+          return list;
+  }
+    public int[] partition(int[] arr,int L,int R){
+        int less=L-1;
+        int big=R+1;
+        int temp=arr[L];
+        while(L<big){
+            if(arr[L]<temp){
+                swap(arr,++less,L++);
+            }else if(arr[L]>temp){
+                swap(arr,L,--big);
+            }else{
+                L++;
+            }
+        }
+        return new int[]{less+1,big-1};
+    }
+    public void swap(int[] arr,int i,int j){
+        int temp=arr[i];
+        arr[i]=arr[j];
+        arr[j]=temp;
+    }
+}
 
 类似冒泡排序，每次把最小的数放到最后，放k个就可以返回，不需要全部排序：
 public class Solution {
