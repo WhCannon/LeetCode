@@ -375,9 +375,6 @@ public class Solution {
 ```java
 输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4
 
-建立大根堆，i位置的数比堆顶小，就移除堆顶，添加这个数：
-
-
 使用快速排序，如果等于区域包含k位置，就返回0-k位置的数：
 public class Solution {
     public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
@@ -443,6 +440,12 @@ public class Solution {
         arr[j]=temp;
     }
 }
+
+建立大根堆，i位置的数比堆顶小，就移除堆顶，添加这个数：
+
+
+直接用优先级队列实现大根堆结构：
+
 ```
 
 ## String
