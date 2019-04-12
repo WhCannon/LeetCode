@@ -283,14 +283,28 @@ public ArrayList<Integer> printMatrix(int [][] matrix) {
 如果不存在则输出0。
 
 使用HashMap存储出现过的数字和次数，返回最大的：
-
-
-
+public class Solution {
+    public int MoreThanHalfNum_Solution(int [] array) {
+        if(array==null || array.length==0) return 0;
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int i=0;i<array.length;i++){
+            Integer temp=map.get(array[i]);
+            if(temp==null){
+                map.put(array[i],1);
+                temp=1;
+            }else{
+                map.put(array[i],++temp);
+            }
+            if(temp>array.length/2){
+                    return array[i];
+                }
+        }
+        return 0;
+    }
+}
 
 将数组排序之后，相同的数字都在相邻位置，
 直接判断数组当前位置的数字与（数组位置+数组一半长度位置）的数字是否相等，相等则输出该数字。
-
-
 
 
 采用阵地攻守的思想：
