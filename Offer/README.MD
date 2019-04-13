@@ -533,7 +533,23 @@ public class Solution {
 例如:{6,-3,-2,7,-15,1,2,2},连续子向量的最大和为8(从第0个开始,到第3个为止)。
 给一个数组，返回它的最大连续子序列的和(子向量的长度至少是1)
 
-
+新建一个数组，用来存储以每个数字为结尾的最大连续子序列的和（如果sum[i-1]为负数，那么最大和就是自己，如果sum[i-1]为正数，就再加上自己）
+然后遍历这个数组，找到最大的和即可
+public class Solution {
+    public int FindGreatestSumOfSubArray(int[] array) {
+        int[] sum=new int[array.length];
+        sum[0] = array[0];
+        for(int i=1;i<array.length;i++){
+            sum[i] = sum[i-1]>=0? sum[i-1]+array[i]:array[i];
+        }
+        int index=0;
+        for(int i=1;i<sum.length;i++){
+            if(sum[i]>sum[index])
+                index=i;
+        }
+        return sum[index];
+    }
+}
 ```
 
 ## String
