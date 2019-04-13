@@ -632,6 +632,33 @@ public static String replaceSpace(StringBuffer str) {
         return str.toString();
     }
 ```
+* 把数组排成最小的数
+```java
+输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。
+例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323
+
+public class Solution {
+    public String PrintMinNumber(int [] numbers) {
+        ArrayList<Integer> list = new ArrayList<>();
+        for(int i=0;i<numbers.length;i++){
+            list.add(numbers[i]);
+        }
+        Collections.sort(list,new MyComparator());
+        StringBuffer res = new StringBuffer();
+        for(Integer j:list){
+            res.append(j);
+        }
+        return res.toString();
+    }   
+    public class MyComparator implements Comparator<Integer> {
+        public int compare(Integer a, Integer b) {
+            String s1=a.toString();
+            String s2=b.toString();
+            return (s1 + s2).compareTo(s2 + s1);
+        }
+    }
+}
+```
 
 ## LinkedList
 
