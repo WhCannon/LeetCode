@@ -684,6 +684,35 @@ public class Solution {
     }
 }
 ```
+* 第一个只出现一次的字符
+```java
+在一个字符串(0<=字符串长度<=10000，全部由字母组成)中找到第一个只出现一次的字符,并返回它的位置,
+如果没有则返回 -1（需要区分大小写）
+
+遍历字符串，使用HashMap存储出现的次数，然后再遍历一次字符串，取出第一个只出现一次的字符即可：
+（注意，如果用HashMap则不能遍历HashMap来取，因为存的时候会打乱字符的顺序，可以用LinkedHashMap来存和取，
+或者使用HashMap存，然后遍历原字符串的顺序来取）
+public class Solution {
+    public int FirstNotRepeatingChar(String str) {
+        if(str==null || str.length()==0) return -1;
+        LinkedHashMap<Character,Integer> map = new LinkedHashMap<Character,Integer>();
+        for(int i =0 ;i<str.length();i++){
+            if(!map.containsKey(str.charAt(i))){
+                map.put(str.charAt(i),1);
+            }else{
+                int c = map.get(str.charAt(i));
+                map.put(str.charAt(i),c+1);
+            }
+        }
+        for(int i=0;i<str.length();i++){
+            if(map.get(str.charAt(i))==1){
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+```
 
 ## LinkedList
 
