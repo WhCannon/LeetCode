@@ -137,6 +137,26 @@ public class Solution {
 }
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Array
 
 * 旋转数组的最小数字
@@ -659,6 +679,65 @@ public class Solution {
     }
 }
 ```
+* 数字在排序数组中出现的次数
+```java
+统计一个数字在排序数组中出现的次数。
+
+使用二分查找，找到这个数的下标i，然后统计i的前面有多少个这个数，再统计i的后面有多少这个数：
+public class Solution {
+    public int GetNumberOfK(int [] array , int k) {
+        if(array==null || array.length==0) return 0;
+        if(k>array[array.length-1] || k<array[0]) return 0;
+        int L=0;
+        int R=array.length-1;
+        int mid = 0;
+        int count =0;
+        while(L<R){
+            mid = L +(R-L)/2;
+            if(array[mid]>k){
+                R=mid-1;
+            }else if(array[mid]<k){
+                L=mid+1;
+            }else{
+                break;
+            }
+        }
+        if(array[mid]!=k) return 0;
+        for(int i = mid-1;i>=0;i--){
+            if(array[i]==array[mid]){
+                count++;
+            }else{
+                break;
+            }
+        }
+        for(int i =mid+1;i<array.length;i++){
+            if((array[i]==array[mid])){
+                count++;
+            }else{
+                break;
+            }
+        }
+        return count+1;
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -782,6 +861,31 @@ public class Solution {
     }
 }
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## LinkedList
 
@@ -1086,6 +1190,34 @@ public class Solution {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## StackQueue
 
 * 用2个栈实现队列
@@ -1194,6 +1326,33 @@ public class Solution {
     }
 }
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
