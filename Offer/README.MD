@@ -1024,7 +1024,7 @@ public class Solution {
 ```
 * 两个链表的第一个公共结点
 ```java
-输入两个链表，找出它们的第一个公共结点。
+输入两个链表，找出它们的第一个公共结点。(这个题是无环的情况下)
 
 使用HashMap存储链表1的每个结点，然后遍历链表2的结点，看map中是否包含这个结点，第一个找到的就是第一个公共结点：
 (用HashMap而不用HashSet的原因是HashMap内部是红黑树，时间复杂度更低)
@@ -1045,6 +1045,40 @@ public class Solution {
             pHead2 = pHead2.next;
         }
         return null;
+    }
+}
+
+分别得到链表1和链表2的长度，然后让较长的那个链表先移动m步（m为2个链表的长度差），
+然后2个链表一起移动，直到第一个公共结点
+public class Solution {
+    public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
+        int len1 = getLength(pHead1);
+        int len2 = getLength(pHead2);
+        while(len1>len2){
+            pHead1 = pHead1.next;
+            len1--;
+        }
+        while(len1<len2){
+            pHead2 = pHead2.next;
+            len2--;
+        }
+        while(pHead1!=null){
+            if(pHead1==pHead2){
+                return pHead1;
+            }else{
+                pHead1 = pHead1.next;
+                pHead2 = pHead2.next;
+            }
+        }
+        return null;
+    }
+    public int getLength(ListNode head){
+        int len = 0;
+        while(head!=null){
+            len++;
+            head = head.next;
+        }
+        return len;
     }
 }
 ```
