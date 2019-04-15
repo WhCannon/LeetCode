@@ -720,6 +720,32 @@ public class Solution {
         return count+1;
     }
 }
+
+使用二分查找，找到k-0.5应该插入的位置，和k+0.5的位置，这两个位置之间全部都是k
+public class Solution {
+    public int GetNumberOfK(int [] array , int k) {
+        if(array==null || array.length==0) return 0;
+        if(k>array[array.length-1] || k<array[0]) return 0;
+        int L = 0;
+        int R = array.length-1;
+        int index1 = getIndex(L,R,array,k-0.5);
+        int index2 = getIndex(index1,R,array,k+0.5);
+        return index2-index1;
+    }
+    public int getIndex(int L,int R,int[] arr,double k){
+        int mid = L;
+        while(L<=R){
+            mid = L +(R-L)/2;
+            if(arr[mid]>k){
+                R = mid-1;
+            }else {
+                L = mid+1;
+            }
+        }
+        return L;
+    }
+}
+
 ```
 
 
