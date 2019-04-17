@@ -750,6 +750,30 @@ public class Solution {
 ```java
 一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。
 
+用一个HashSet,遍历数组，如果arr[i]没在set中，就存储，如果set中有这个数，就删除，最后set中剩余的就是只出现一次的数字。
+public class Solution {
+    public void FindNumsAppearOnce(int [] array,int num1[] , int num2[]) {
+        HashSet<Integer> set = new HashSet<Integer>();
+        for(int i = 0; i<array.length; i++){
+            if(!set.contains(array[i])){
+                set.add(array[i]);
+            }else{
+                set.remove(array[i]);
+            }
+        }
+        num1[0] = (Integer)set.toArray()[0];
+        num2[0] = (Integer)set.toArray()[1];
+    }
+}
+
+对数组中的数逐个使用异或运算，最后得到的结果一定是那两个只出现一次的数字的异或结果。但光从这个结果肯定无法得到这个两个数字。
+因此我们来分析下简化版中“异或”解法的关键点，这个关键点也相当明显：数组只能有一个数字出现1次。
+设题目中这两个只出现1次的数字分别为A和B，如果能将A，B分开到二个数组中，那显然符合“异或”解法的关键点了。
+因此这个题目的关键点就是将A，B分开到二个数组中。由于A，B肯定是不相等的，因此在二进制上必定有一位是不同的。
+根据这一位是0还是1可以将A，B分开到A组和B组。而这个数组中其它数字要么就属于A组，要么就属于B组。
+再对A组和B组分别执行“异或”解法就可以得到A，B了。而要判断A，B在哪一位上不相同，只要根据A异或B的结果就可以知道了，
+这个结果在二进制上为1的位就说明A，B在这一位上是不相同的。
+
 ```
 
 
