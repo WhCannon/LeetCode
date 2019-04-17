@@ -773,7 +773,25 @@ public class Solution {
 根据这一位是0还是1可以将A，B分开到A组和B组。而这个数组中其它数字要么就属于A组，要么就属于B组。
 再对A组和B组分别执行“异或”解法就可以得到A，B了。而要判断A，B在哪一位上不相同，只要根据A异或B的结果就可以知道了，
 这个结果在二进制上为1的位就说明A，B在这一位上是不相同的。
-
+public class Solution {
+    public void FindNumsAppearOnce(int [] array,int num1[] , int num2[]) {
+        int x = 0;
+        for(int i =0; i<array.length;i++){
+            x^=array[i];
+        }
+        int n = 1;
+        while((x&n)==0){
+            n=n<<1;
+        }
+        for(int i =0;i<array.length;i++){
+            if((array[i]&n)==0){
+                num1[0]^=array[i];
+            }else{
+                num2[0]^=array[i];
+            }
+        }
+    }
+}
 ```
 
 
