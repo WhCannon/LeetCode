@@ -989,7 +989,104 @@ public class Solution {
 例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。
 输入一个字符串,长度不超过9(可能有字符重复),字符只包括大小写字母。
 
+递归：
+(1) 遍历出所有可能出现在第一个位置的字符（即：依次将第一个字符同后面所有字符交换）；
+     在有重复值的情况下，每个数分别与它后面非重复出现的字符交换。
+(2) 固定第一个字符，求后面字符的排列（即：在第1步的遍历过程中，插入递归进行实现）。
+     从每个子串的第二个字符开始，依次与第一个字符交换，然后继续处理子串。
+需要注意的几点：
+(1) 递归的出口，就是只剩一个字符的时候。
+(2) 输出的排列可能不是按字典顺序排列的，输出前需要排序。
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+public class Solution {
+    public ArrayList<String> Permutation(String str) {
+        ArrayList<String> list = new ArrayList<>();
+        if(str!=null && str.length()>0){
+            Permutation2(str.toCharArray(),0,list);
+            Collections.sort(list);
+        }
+        return list;
+    }
+    //i表示i之前的字符固定不动，从i开始与后面的交换
+    public void Permutation2(char[] ch,int i,ArrayList<String> list){
+        if(i==ch.length-1){
+            list.add(String.valueOf(ch));
+        }else{
+            HashSet<Character> hash = new HashSet<>();
+            for(int j=i;j<ch.length;j++){ //j表示每次与i交换的位置，从i一直到末尾
+                if(j==i || !hash.contains(ch[j])){ //遇到非重复的字符，才交换
+                    hash.add(ch[j]);
+                    swap(ch,i,j);
+                    Permutation2(ch,i+1,list); //然后保持i之前的不变，从i+1开始交换
+                    swap(ch,j,i);//再把i换回来，在下一次循环时，i与下下一位交换
+                }
+            }
+        }
+    }
+    public void swap(char[] cs,int i,int j){
+        char temp = cs[i];
+        cs[i] = cs[j];
+        cs[j] = temp;
+    }
+}
 
+字典序排列算法：
+获得所有的字典序排列，例如 得到346987521的下一个排序：
+从尾部往前找第一个P(i-1) < P(i)的位置
+      3 4 6 < 9 < 8 < 7 < 5 < 2 < 1 最终找到6是第一个变小的数字，记录下6的位置i-1
+从i位置往后找到最后一个大于6的数
+    3 4 6 > 9 > 8 > 7 5 2 1	最终找到7的位置，记录位置为m
+交换位置i-1和m的值
+    3 4 7 9 8 6 5 2 1
+倒序i位置后的所有数据
+     3 4 7 1 2 5 6 8 9
+则347125689为346987521的下一个排列。
+import java.util.ArrayList;
+import java.util.Arrays;
+public class Solution {
+    public static ArrayList<String> Permutation(String str) {
+        ArrayList<String> list = new ArrayList<String>();
+        if(str==null || str.length()==0){
+            return list;
+        }
+        char[] ch = str.toCharArray();
+        Arrays.sort(ch);
+        list.add(String.valueOf(ch));
+        while(true){
+            int L = ch.length-1; //从后往前
+            int R ; //从前往后最后一个大于的位置
+            while(L>=1 && ch[L-1]>=ch[L]){
+                L--;
+            }
+            // 此时L-1的位置就是从后往前，第一个变小的位置
+            if(L==0){
+                break;
+            }
+            R = L;
+            while(R<ch.length && ch[R]>ch[L-1]){
+                R++;
+            }
+            //此时R-1的位置就是最后一个大于L-1位置的数
+            swap(ch,L-1,R-1);
+            reverse(ch,L);//交换之后，倒序L-1后面的数
+            list.add(String.valueOf(ch));
+        }
+        return list;
+    }
+    private static void reverse(char[] ch, int L) {
+        int R = ch.length-1;
+        while(L<=R){
+            swap(ch,L++,R--);
+        }
+    }
+    public static void swap(char[] cs,int i,int j){
+        char temp = cs[i];
+        cs[i] = cs[j];
+        cs[j] = temp;
+    }
+}
 ```
 
 
