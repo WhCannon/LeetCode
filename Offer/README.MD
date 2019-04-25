@@ -877,6 +877,29 @@ public class Solution {
         return list;
     }
 }
+
+利用S/n得到平均值（n为连续数字的个数）。
+如果n为奇数个，那么S/n得到的正好是中间的那个数，往前推（n-1）/2个就是这个序列的开头；
+  (n&1)==1) && sum%n==0 表示n为奇数时，sum可以被n个数得到
+如果n为偶数个，那么S/n得到的是中间2个数的平均值，往前推（n-1）/2个就是这个序列的开头。
+   sum%n*2 ==n 表示n为偶数时，中间2个数的平均值一定带小数0.5，也就是说sum%n得到的结果一定是0.5n 
+由题可知n>= 2，我们完全可以将n从2到S全部遍历一次，但是大部分遍历是不必要的。
+根据等差数列的求和公式：S = (1 + n) * n / 2，得到n<根号下2S
+public class Solution {
+    public ArrayList<ArrayList<Integer> > FindContinuousSequence(int sum) {
+        ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
+        for(int n=(int)Math.sqrt(2*sum);n>=2;n--){
+            if(((n&1)==1) && sum%n==0 || sum%n*2 ==n){
+                ArrayList<Integer> in = new ArrayList<Integer>();
+                for(int j = 0, k = (sum/n) - (n-1)/2;j<n;j++,k++){
+                    in.add(k);
+                }
+                list.add(in);
+            }
+        }
+        return list;
+    }
+}
 ```
 
 
