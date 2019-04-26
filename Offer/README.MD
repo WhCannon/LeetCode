@@ -1182,7 +1182,55 @@ public class Solution {
     }
 }
 ```
+* 左旋转字符串
+```java
+对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。
+例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”
 
+将字符串先分割再拼接:
+public class Solution {
+    public String LeftRotateString(String str,int n) {
+        if(str==null || str.length()<=1) return str;
+        int len = str.length();
+        if(n%len == 0){
+            return str;
+        } else{
+            n%=len;
+            String s1 = str.substring(0,n);
+            String s2 = str.substring(n);
+            str = s2.concat(s1);
+            return str;
+        }
+    }
+}
+
+三次反转的方法
+字符串abcdef，n=3，设X=abc，Y=def，所以字符串可以表示成XY，如题干，问如何求得YX。
+假设X的翻转为XT，XT=cba，同理YT=fed，那么YX=(XTYT)T，三次翻转后可得结果。
+public class Solution {
+    public String LeftRotateString(String str,int n) {
+        if(str==null || str.length()<=1) return str;
+        int len = str.length();
+        if(n%len == 0){
+            return str;
+        }
+        char[] ch = str.toCharArray();
+        reverse(ch,0,n-1);
+        reverse(ch,n,len-1);
+        reverse(ch,0,len-1);
+        return new String(ch);
+    }
+    public void reverse(char[] ch,int L,int R){
+        while(L<R){
+            char temp = ch[L];
+            ch[L] = ch[R];
+            ch[R] = temp;
+            L++;
+            R--;
+        }
+    }
+}
+```
 
 
 
