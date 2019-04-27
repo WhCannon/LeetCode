@@ -187,7 +187,33 @@ public class Solution {
     }
 }
 ```
+* 求1+2+3+...+n
+```java
+求1+2+3+…+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）
 
+使用&&短路的特性
+当n>0时，执行sum+=Sum_Solution(n-1)，实现递归计算Sum_Solution(n)。
+当n=0时，结束递归。
+public class Solution {
+    public int Sum_Solution(int n) {
+        int sum = n; 
+        boolean flag = (n>0) && ((sum+=Sum_Solution(n-1))>0); //在n不为0时，可以计算sum的值
+        return sum;
+    }
+}
+
+利用异常结束递归
+public class Solution {
+    public int Sum_Solution(int n) {
+        try{
+            int i =1/n;  //当n=0时，进入catch
+            return n+Sum_Solution(n-1);
+        }catch(Exception e){
+            return 0;  //当n=0时，结束递归
+        }
+    }
+}
+```
 
 
 
