@@ -1231,7 +1231,60 @@ public class Solution {
     }
 }
 ```
+* 翻转单词顺序
+```java
+给定一个句子，它的顺序是翻转的。例如，“student a am I”，正确的句子应该是“I am a student”。
+给定一个字符串，把它翻转回正确是顺序。
 
+先分割，再按倒序拼接（可以转为数组，也可以使用栈实现）
+public class Solution {
+   public String ReverseSentence(String str) {
+        if(str==null || str.length()==0 || str.trim().length()==0) return str;
+		String[] arr = str.split(" ");
+		String s = "";
+		for(int i =arr.length-1;i>0;i--){
+			s+=arr[i];
+			s+=" ";
+		}
+		s+=arr[0];
+		return s;
+	}
+}
+
+先将整个字符串翻转，再对每个单词翻转
+public class Solution {
+   public String ReverseSentence(String str) {
+         if(str==null || str.trim().length()==0) return str;
+        int len = str.length();
+        char[] ch = str.toCharArray();
+        reverse(ch,0,len-1);
+        int L=0;
+        int R=0;
+        while(R<len){
+        	if(R==len-1){
+        		reverse(ch,L,R);
+        	}
+        	if(ch[R]==' '){
+        		reverse(ch,L,R-1);
+        		R+=1;
+        		L=R;
+        	}else{
+        		R++;
+        	}
+        }
+        return new String(ch);
+	}
+     public static void reverse(char[] ch,int L,int R){
+        while(L<R){
+            char temp = ch[L];
+            ch[L] = ch[R];
+            ch[R] = temp;
+            L++;
+            R--;
+        }
+    }
+}
+```
 
 
 
