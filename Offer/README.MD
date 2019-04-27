@@ -1668,7 +1668,61 @@ public class Solution {
     }
 }
 ```
+* 圆圈中最后剩下的数
+```java
+有n个人，围成一个圆圈，随机指定一个数m。然后从0开始报数，报到m-1的人出列，
+然后从下一个人开始又从0开始报数，直到剩下最后一个人。
+求最后剩下的人的编号。（编号从0到n-1）
 
+使用一个链表，每次从Index开始数，数到index+m-1，
+得到要出列的位置是（index+m-1）%list.size()，表示如果数到末尾，再从头开始数。
+public class Solution {
+    public int LastRemaining_Solution(int n, int m) {
+        LinkedList<Integer> list = new LinkedList<Integer>();
+        for(int i=0;i<n;i++){
+            list.add(i);
+        }
+        int index = 0;
+        while(list.size()>1){
+            index = (index + m -1) % list.size();
+            list.remove(index);
+        }
+        return list.size()==1?list.get(0):-1;
+    }
+}
+
+利用公式，f(n)=( f(n-1)+m ) % n
+public class Solution {
+    public int LastRemaining_Solution(int n, int m) {
+        if(n==0) return -1;
+        if(n==1) return 0;
+        return (LastRemaining_Solution(n-1,m) + m)% n;
+    }
+}
+
+使用数组模拟环
+public class Solution {
+    public int LastRemaining_Solution(int n, int m) {
+        if(n<1 || m<1) return -1;
+        int[] arr = new int[n];
+        int step=0;  // 计数，数到m就归0
+        int i = -1; //表示当前位置
+        int count = n; //剩余的人数
+        while(count>0){ 
+            i++;  //下移一位
+            if(i>=n) i=0; //当i到达末尾，就从0开始
+            if(arr[i]==-1) continue;  // -1表示当前位置已经被删除，就直接跳过，不计数
+            step++;  /
+            if(step == m){ // 当计数到了m，就删除当前位置
+                arr[i] = -1; 
+                step=0;
+                count--;
+            }
+        }
+        return i;
+    }
+}
+```
 
 
 
