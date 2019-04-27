@@ -928,7 +928,68 @@ public class Solution {
     }
 }
 ```
+* 扑克牌顺子
+```java
+一副扑克牌，大\小 王可以看成任何数字,并且A看作1,J为11,Q为12,K为13。
+如果牌能组成顺子就输出true，否则就输出false。为了方便起见,你可以认为大小王是0
 
+如果是顺子，则需要满足
+1.数组长度为5
+2.除了0之外，没有重复的数字
+3.如果要组成顺子，就必须满足max-min<=4
+public class Solution {
+    public boolean isContinuous(int [] numbers) {
+	        if(numbers==null || numbers.length!=5) return false;
+	        Arrays.sort(numbers);
+	        int joker = 0;
+	        int i =0;
+	        for(;i<numbers.length;i++){
+	        	if(numbers[i]==0){
+	        		joker++;
+	        	}else{
+	        		break;
+	        	}
+	        }
+	        for(int j=i;j<numbers.length-1;j++){
+	        	if(numbers[j]==numbers[j+1]){
+	        		return false;
+	        	}
+	        }
+	        if(numbers[numbers.length-1]-numbers[i]<=4){
+	        	return true;
+	        }else{
+	        	return false;
+	        }
+	}
+}
+
+不使用排序的方法
+public class Solution {
+ public static boolean isContinuous(int [] numbers) {
+            if(numbers==null || numbers.length!=5) return false;
+            int[] count = new int [14];
+            int max=-1;
+            int min=14;
+            for(int i =0;i<5;i++){
+                count[numbers[i]]++;
+                if(count[numbers[i]]>1 && numbers[i]!=0){
+                    return false;
+                }
+                if(numbers[i]>max){
+                    max=numbers[i];
+                }
+                if(numbers[i]!=0 && numbers[i]<min){
+                    min=numbers[i];
+                }
+            }
+            if(max-min<5){
+                return true;
+            }else{
+                return false;
+            }
+        }
+}
+```
 
 
 
