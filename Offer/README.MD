@@ -1035,7 +1035,121 @@ public class Solution {
         }
 }
 ```
+* 数组中重复的数字
+```java
+在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是第一个重复的数字2。
 
+使用HashSet,遍历数组，使用HashSet来存储，出现重复就直接返回true.
+public class Solution {
+    public boolean duplicate(int numbers[],int length,int [] duplication) {
+        if(numbers==null || length==0) return false;
+        HashSet<Integer> set = new HashSet<>();
+        for(int i =0;i<length;i++){
+            if(set.contains(numbers[i])){
+                duplication[0]=numbers[i];
+                return true;
+            }else{
+                set.add(numbers[i]);
+            }
+        }
+        return false;
+    }
+}
+
+选择排序,在排序对比的过程中，如果出现相等，就说明有重复数字，直接返回true
+public class Solution {
+    public boolean duplicate(int numbers[],int length,int [] duplication) {
+        if(numbers==null || length<1) return false;
+        for(int i = 1;i<length;i++){
+            for(int j=i;j>0;j--){
+                if(numbers[j]==numbers[j-1]){
+                    duplication[0] = numbers[j];
+                    return true;
+                }else if(numbers[j]<numbers[j-1]){
+                    swap(numbers,j,j-1);
+                }
+            }
+        }
+        return false;
+    }
+    public void swap(int[] arr,int i,int j){
+        int temp=arr[i];
+        arr[i]=arr[j];
+        arr[j]=temp;
+    }
+}
+
+使用一个辅助数组
+使用一个byte数组（每个位置占1个字节），用numbers数组中的数字作为下标，出现过的数字，
+将byte[numbers[i]]设为1（原始为0）。遍历过程中，如果是1，就表明是重复出现的，直接返回true
+public class Solution {
+    public boolean duplicate(int numbers[],int length,int [] duplication) {
+        if(numbers==null || length<1) return false;
+        byte[] bt = new byte[length];
+        for(int i =0;i<length;i++){
+            if(bt[numbers[i]]==1){
+                duplication[0]=numbers[i];
+                return true;
+            }
+            bt[numbers[i]]=1;
+        }
+        return false;
+    }
+}
+
+将数字移动到对应的坐标
+因为数组长度为n，而数字为0-n-1，所以以当前的数字numbers[i]为下标，都不会越界。
+因此，把number[i]移动到numbers[numbers[i]]位置上，表示坐标i与该坐标上的数字numbers[i]是相等的。
+利用这个方法，将每个数字都移动到相对应的坐标位置，移动时如果对应位置上的数已经等于了numbers[i]，就表示出现了重复的数字。
+public class Solution {
+    public boolean duplicate(int numbers[],int length,int [] duplication) {
+        if(numbers==null || length<1) return false;
+        for(int i =0 ;i<length;i++){
+            while(numbers[i]!= i){
+                if(numbers[i] == numbers[numbers[i]]){
+                    duplication[0] = numbers[i];
+                    return true;
+                }
+                swap(numbers,i,numbers[i]);
+            }
+        }
+        return false;
+    }
+    public void swap(int[] arr ,int i,int j){
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}
+
+在相应位置做标记
+跟上一种方法类似，用当前的数做坐标index=numbers[i]，在相应的位置numbers[index]做标记，减去length（变为了负数）
+如果要做标记的位置，已经是负数，表明出现了重复的数字。
+注意：在遍历到numbers[index]位置时，如果这个位置被做了标记，那么要判断原来这个位置上的数字所对应位置的状态，
+需要加上length才能得到原来的数字。
+public class Solution {
+    public boolean duplicate(int numbers[],int length,int [] duplication) {
+        if(numbers==null || length<1) return false;
+        for(int i=0;i<length;i++){
+            int index = numbers[i];
+            if(index<0){
+                index+=length;
+            }
+            if(numbers[index]<0){
+                duplication[0]=index;
+                return true;
+            }
+            numbers[index]-=length;
+        }
+        return false;
+    }
+    public void swap(int[] arr ,int i,int j){
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}
+```
 
 
 
