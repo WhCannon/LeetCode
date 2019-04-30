@@ -1150,7 +1150,54 @@ public class Solution {
     }
 }
 ```
+* 构建乘积数组
+```java
+给定一个数组A[0,1,…,n-1],请构建一个数组B[0,1,…,n-1],其中B中的元素B[i]=A[0] * A[1]*…*A[i-1] * A[i+1] * … * A[n-1]。
+不能使用除法
 
+暴力解法：
+public class Solution {
+    public int[] multiply(int[] A) {
+        if(A==null || A.length<=1) return null;
+        int len = A.length;
+        int[] B = new int[len];
+        B[0] = res(A,1,len-1);
+        B[len-1] = res(A,0,len-2);
+        for(int i =1; i+1<len; i++){
+            B[i] = res(A,0,i-1)*res(A,i+1,len-1);
+        }
+        return B;
+    }
+    public int res(int[] arr,int L,int R){
+        int res = 1;
+        while(L<=R){
+            res*=arr[L];
+            L++;
+        }
+        return res;
+    }
+}
+
+第一个循环,先从左往右算，得到每个数左边的所有乘积，
+第二个循环，从右往左算，得到每个数右边的所有乘积，使用temp记录
+public class Solution {
+    public int[] multiply(int[] A) {
+        if(A==null || A.length<=1) return null;
+        int len = A.length;
+        int[] B = new int[len];
+        B[0] = 1 ;
+        for(int i = 1 ;i<len;i++){
+            B[i] = B[i-1] * A[i-1];
+        }
+        int temp = 1;
+        for(int i = len-1;i>=0;i--){
+            B[i]*=temp;
+            temp*=A[i];
+        }
+        return B;
+    }
+}
+```
 
 
 
