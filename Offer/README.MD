@@ -1595,7 +1595,67 @@ public class Solution {
     }
 }
 ```
+* 表示数值的字符串
+```java
+请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。
+例如，字符串"+100",“5e2”,"-123",“3.1416"和”-1E-16"都表示数值。 
+但是"12e",“1a3.14”,“1.2.3”,"±5"和"12e+4.3"都不是。
 
+对字符串逐个判断
+public class Solution {
+    public boolean isNumeric(char[] str) {
+        if(str==null || str.length==0) return false;
+        boolean sign = false; //标记+-号
+        boolean decimal = false; //标记小数点
+        boolean hasE = false; // 标记e
+        for(int i = 0 ;i < str.length; i++){
+            if(str[i]=='e' || str[i]=='E'){
+                if(i==str.length-1) return false;//e后面必须接数字
+                if(hasE) return false;//不能有2个e
+                hasE = true;
+            }else if(str[i]=='-' || str[i]=='+'){
+                //如果有第二个+-号，则必须紧跟在e后面
+                if(sign && str[i-1]!='e' && str[i-1]!='E') return false ;
+                //如果是第一个+-号，且不在开头，则必须紧跟在e后面
+                if(!sign && i>0 &&  str[i-1]!='e' && str[i-1]!='E') return false;
+                sign=true;
+            }else if(str[i]=='.'){
+                //e后面不能有小数点，小数点不能出现2次
+                if(hasE || decimal) return false;
+                decimal = true;
+            }else if(str[i]<'0' || str[i]>'9'){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+使用正则表达式
+public class Solution {
+    public boolean isNumeric(char[] str) {
+        String string = String.valueOf(str);
+        return string.matches("[\\+-]?[0-9]*(\\.[0-9]*)?([eE][\\+-]?[0-9]+)?");
+    }
+}
+[\\+-]?   表示正或负符号出现与否
+[0-9]*    表示整数部分是否出现，如-.34 或 +3.34均符合
+(\\.[0-9]*)?  	如果出现小数点，那么小数点后面必须有数字；否则一起不出现
+([eE][\\+-]?[0-9]+)?	如果存在指数部分，那么e或E肯定出现，+或-可以不出现，紧接着必须跟着整数；
+			或者整个部分都不出现
+
+如果可以转换成double类型，说明字符串是一个数值
+public class Solution {
+    public boolean isNumeric(char[] str) {
+        try {
+            double re = Double.parseDouble(new String(str));
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+}
+```
 
 
 
