@@ -2031,7 +2031,51 @@ public class Solution {
     }
 }
 ```
+# 链表中环的入口结点
+```java
+给一个链表，若其中包含环，请找出该链表的环的入口结点，否则，输出null。
 
+使用HashSet存储结点，如果已经存在，这个结点就是入环结点
+public class Solution {
+    public ListNode EntryNodeOfLoop(ListNode pHead){
+        HashSet<ListNode> set = new HashSet<>();
+        while(pHead.next!=null){
+            if(set.contains(pHead)){
+                return pHead;
+            }
+            set.add(pHead);
+            pHead=pHead.next;
+        }
+        return null;
+    }
+}
+
+设置一个慢指针每次走1步，一个快指针每次走2步，如果有环，一定会在环内相遇。
+然后让一个指针回到起点，起点开始走，让一个指针从相遇点开始继续往后走，
+2个指针速度一样，那么，当从原点的指针走到环入口点的时候，从相遇点开始走的那个指针也一定刚好到达环入口点。
+所以2者会相遇，且恰好相遇在环的入口点。
+public class Solution {
+    public ListNode EntryNodeOfLoop(ListNode pHead){
+        if(pHead == null || pHead.next==null || pHead.next.next==null) return null;
+        ListNode node1 = pHead.next;
+        ListNode node2 = pHead.next.next;
+        while(node1 != node2) {
+            if(node1.next!=null && node2.next.next!=null){
+                node1 = node1.next;
+                node2 = node2.next.next;
+            }else{
+                return null;
+            }
+        }
+        node1 = pHead;
+        while(node1!=node2){
+            node1=node1.next;
+            node2=node2.next;
+        }
+        return node1;
+    }
+}
+```
 
 
 
