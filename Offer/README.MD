@@ -1656,7 +1656,69 @@ public class Solution {
     }
 }
 ```
+* 字符流中第一个不重复的字符
+```java
+请实现一个函数用来找出字符流中第一个只出现一次的字符。
+例如，当从字符流中只读出前两个字符"go"时，第一个只出现一次的字符是"g"。
+当从该字符流中读出前六个字符“google"时，第一个只出现一次的字符是"l"。
 
+借助数组和另一辅助空间
+public class Solution {
+    //Insert one char from stringstream
+    private byte[] bt = new byte[128];
+    StringBuffer st = new StringBuffer();
+    public void Insert(char ch){
+        if(bt[ch]==0){ // 第一次出现
+            bt[ch]++; 
+            st.append(ch); // 添加到st中
+        }else if(bt[ch]==1){ // 第二次出现
+            bt[ch]++;
+            String s = ch+"";
+            int index = st.indexOf(s);
+            st.deleteCharAt(index); // 从st中删除
+        }else{
+            bt[ch]++;
+        }
+    }
+  //return the first appearence once char in current stringstream
+    public char FirstAppearingOnce(){
+        if(st.length()==0) return '#';
+        return st.charAt(0);
+    }
+}
+
+只使用数组
+如果第一次出现，将bt[ch]设置为index(字符出现的顺序)，是大于0的，
+如果重复出现了，就将bt[ch]设置为-1.
+FirstAppearingOnce()的原理是，每次遍历数组，得到值大于0且index最小的那个位置i，
+再把i强转为char类型，就是要返回的字符
+public class Solution {
+    //Insert one char from stringstream
+    private byte[] bt = new byte[128];
+    byte index = 1;
+    public void Insert(char ch){
+        if(bt[ch]==0){
+            bt[ch] = index;
+        }else if(bt[ch]>0){
+            bt[ch] = -1;
+        }
+        index++;
+    }
+  //return the first appearence once char in current stringstream
+    public char FirstAppearingOnce(){
+        int min = Integer.MAX_VALUE;
+        char res = '\0';
+        for(int i =0;i<128;i++){
+            if(bt[i]>0 && bt[i]<min){
+                min = bt[i];
+                res = (char)i;
+            }
+        }
+        if(res =='\0') return '#';
+        return res;
+    }
+}
+```
 
 
 
