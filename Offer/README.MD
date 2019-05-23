@@ -1719,6 +1719,49 @@ public class Solution {
     }
 }
 ```
+* 正则表达式匹配
+```java
+请实现一个函数用来匹配包括’.‘和’ * ’ 的正则表达式。
+模式中的字符’.‘表示任意一个字符，而’ * '表示它前面的字符可以出现任意次（包含0次）
+在本题中，匹配是指字符串的所有字符匹配整个模式。
+例如，字符串"aaa"与模式"a.a"和"ab * ac * a"匹配，但是与"aa.a"和"ab*a"均不匹配。
+
+分两种情况：pattern下一个字符为*或不为*：
+1.pattern下一个字符不为‘ * ’：这种情况比较简单，直接匹配当前字符。
+如果匹配成功，继续匹配下一个；如果匹配失败，直接返回false。
+注意这里的“匹配成功”，除了两个字符相同的情况外，还有一种情况，就是pattern的 当前字符为‘.’
+2.pattern下一个字符为‘ * ’时，稍微复杂一些，因为‘ * ’可以代表0个或多个。这里把这些情况都考虑到：
+a>当‘ * ’匹配0个字符时，str当前字符不变，pattern当前字符后移2位，跳过这个‘ x* ’；
+b>当‘ * ’匹配1个时，str当前字符移向下一个，pattern当前字符后移2位。
+c>当‘ * ’匹配多个时，str当前字符移向下一个，pattern当前字符不变。
+
+递归法：
+public class Solution {
+    public boolean match(char[] str, char[] pattern) {
+    if (str == null || pattern == null) {
+        return false;
+        }
+    return ismatch(str, 0, pattern, 0);
+    } 
+    public boolean ismatch(char[] str,int i,char[] pattern,int j){
+        if(j==pattern.length){ //j到了末尾
+            return i==str.length; //i必须也到末尾才为true,否则为false
+        }
+        if(j+1 < pattern.length && pattern[j+1]=='*' ){ // j+1不越界并且为*
+            if((i!=str.length && str[i]==pattern[j]) ||( pattern[j]=='.' && i!=str.length)){ // 当前位能匹配上
+                return ismatch(str,i,pattern,j+2) || ismatch(str,i+1,pattern,j+2) || ismatch(str,i+1,pattern,j);
+            }else{ // 当前位匹配不上
+                return ismatch(str,i,pattern,j+2);
+            }
+        }
+        // j+1越界了 或者下一位不是*，那么必须当前位是匹配的
+        if((i!=str.length && str[i]==pattern[j] )|| (pattern[j]=='.' && i!=str.length)){
+            return ismatch(str,i+1,pattern,j+1);
+        }
+        return false;
+    }
+}
+```
 
 
 
