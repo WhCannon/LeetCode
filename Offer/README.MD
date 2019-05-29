@@ -2371,7 +2371,68 @@ public class Solution {
     }
 }
 ```
+* 滑动窗口的最大值
+```java
+给定一个数组和滑动窗口的大小，找出所有滑动窗口里数值的最大值。
+例如，如果输入数组{2,3,4,2,6,2,5,1}及滑动窗口的大小3，那么一共存在6个滑动窗口，他们的最大值分别为{4,4,6,6,6,5}；
+针对数组{2,3,4,2,6,2,5,1}的滑动窗口有以下6个： {[2,3,4],2,6,2,5,1}， {2,[3,4,2],6,2,5,1}， {2,3,[4,2,6],2,5,1}，
+{2,3,4,[2,6,2],5,1}， {2,3,4,2,[6,2,5],1}， {2,3,4,2,6,[2,5,1]}。
+注意：当size>数组长度时，认为没有最大值
 
+每滑动一次，都遍历当前窗口内的数字，找到最大值
+import java.util.*;
+public class Solution {
+    public ArrayList<Integer> maxInWindows(int [] num, int size){
+        ArrayList<Integer> res = new ArrayList<>();
+        if(num==null || num.length==0 || size==0 || size>num.length) 
+            return res;
+        for(int i=0; i+size-1<num.length; i++){
+            res.add(maxNum(num, i, i+size-1 ));
+        }
+        return res;
+    }
+    private int maxNum(int[] num, int L, int R){
+        int max = num[L];
+        for(int i = L;i<=R;i++){
+            if(num[i] > max){
+                max = num[i];
+            }
+        }
+        return max;
+    }
+}
+
+使用双端队列：
+队头用来记录当前窗口的最大值，队尾用来加入数字，新增加的值从队尾开始比较，把所有比他小的值丢掉
+（因为当前数添加的较晚，并且还比队尾的数字大，所以队尾的数不可能是窗口内的最大值）。
+返回最大值时从队头开始，要先判断是否过期了（不在窗口内），过期就删除。
+import java.util.*;
+public class Solution {
+    public ArrayList<Integer> maxInWindows(int [] num, int size){
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        if(num==null || num.length==0 || size==0 || size>num.length)
+            return res;
+        LinkedList<Integer> list = new LinkedList<Integer>();
+        for(int i=0; i<size-1; i++){ // 先添加0-size-1个数，此时不输出最大值
+            while(!list.isEmpty() && num[list.getLast()]<num[i]){
+                list.removeLast();
+            }
+            list.add(i);
+        }
+        for(int i=size-1; i<num.length; i++){ // 此时开始输出最大值
+            while(!list.isEmpty() && num[list.getLast()] < num[i]){
+                list.removeLast();
+            }
+            list.add(i);
+            while(list.getFirst()+size-1 < i){ // 判断队头元素是否过期
+                list.removeFirst();
+            }
+            res.add(num[list.getFirst()]);
+        }
+        return res;
+    }
+}
+```
 
 
 
