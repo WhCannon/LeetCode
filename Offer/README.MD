@@ -1198,7 +1198,87 @@ public class Solution {
     }
 }
 ```
+* 矩阵中的路径
+```java
+请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。
+路径可以从矩阵中的任意一个格子开始，每一步可以在矩阵中向左，向右，向上，向下移动一个格子。
+如果一条路径经过了矩阵中的某一个格子，则之后不能再次进入这个格子。 
+例如 a b c e s f c s a d e e 这样的3 X 4 矩阵中包含一条字符串"bcced"的路径，
+但是矩阵中不包含"abcb"路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入该格子。
 
+分析：
+先在matrix[]中找到str[0]所在的位置i，然后从i位置开始，向上、下、左、右方向去找，
+看与str的下一位是否匹配，如果匹配了，就将matrix相应的位置设为‘-’,
+表示经过了这个格子，后面不能再次进入。
+然后再重复向上、下、左、右方向去找的过程，直到str匹配完毕，返回true。
+匹配过程中，如果发现i越界、当前位置匹配不上、i位置已经是’-’ ，就返回false。
+有可能matrix[]中存在多个str[0]，可能以这个开头不行，但是以另一个开头是可以的。
+因此需要在matrix[]中找到下一个str[0]，再重复上面匹配的过程。（这里注意，要将matrix中的’-'符号还原）
+
+public class Solution {
+    public boolean hasPath(char[] matrix, int rows, int cols, char[] str){
+        char[] ch = copy(matrix); //先copy一个matrix，方便后面还原
+        for(int i=0; i<matrix.length; i++){
+            if(matrix[i] == str[0]){ //如果能找到str[0]所在的位置i
+                if(match(matrix, i, rows, cols, str , 0)){ //如果能完全匹配，返回true
+                    return true;
+                }else{ // 上面的匹配失败，还原matrix，再去找下一个开头
+                    matrix = copy(ch);
+                }
+            }
+        }
+        return false;
+    }
+    boolean match(char[] matrix, int i, int rows, int cols, char[] str, int j){
+        if(j==str.length) //如果str匹配完了，返回true
+            return true;
+        if(i<0 || i>matrix.length-1 || matrix[i]!=str[j] || matrix[i]=='-') //如果越界、匹配不上、i位置已经匹配过了
+            return false;
+        matrix[i]='-'; //没有越界并且匹配上了，就将当前位置设为‘-’
+        if(match(matrix, i-1, rows, cols, str, j+1) || //去匹配上、下、左、右的位置
+           match(matrix, i+1, rows, cols, str, j+1) ||
+           match(matrix, i+cols, rows, cols, str, j+1)||
+           match(matrix, i-cols, rows, cols, str, j+1)){
+            return true;
+        }
+        return false;
+    }
+    char[] copy(char[] matrix){
+        char[] ch = new char[matrix.length];
+        for(int i=0;i<ch.length; i++){
+            ch[i]=matrix[i];
+        }
+        return ch;
+    }
+}
+
+使用一个boolean矩阵来标记访问过的位置
+public class Solution {
+public boolean hasPath(char[] matrix, int rows, int cols, char[] str){
+        boolean[] visited = new boolean[matrix.length];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (searchFromHere(matrix,rows,cols,i,j,0,str,visited))
+                    return true;
+            }
+        }
+        return false;
+    }
+    public boolean searchFromHere(char[] matrix,int rows,int cols,int r,int c,int index,char[] str,boolean[] visited){
+        if (r < 0 || r >= rows || c < 0 || c >= cols || matrix[r * cols + c] != str[index] || visited[r * cols + c])
+            return false;
+        if (index == str.length - 1)    return true;
+        visited[r * cols + c] = true;
+        if (searchFromHere(matrix,rows,cols,r - 1,c,index + 1,str,visited) ||
+                searchFromHere(matrix,rows,cols,r,c -1,index + 1,str,visited) ||
+                searchFromHere(matrix,rows,cols,r + 1,c,index + 1,str,visited) ||
+                searchFromHere(matrix,rows,cols,r,c + 1,index + 1,str,visited))
+            return true;
+        visited[r * cols + c] = false;
+        return false;
+    }
+}
+```
 
 
 
