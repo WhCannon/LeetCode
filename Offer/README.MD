@@ -1279,7 +1279,45 @@ public boolean hasPath(char[] matrix, int rows, int cols, char[] str){
     }
 }
 ```
+* 机器人的运动范围
+```java
+地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，
+但是不能进入行坐标和列坐标的数位之和大于k的格子。 
+例如，当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。
+但是，它不能进入方格（35,38），因为3+5+3+8 = 19。
+请问该机器人能够达到多少个格子？
 
+构建一个辅助数组flag[][]，如果当前位置可以到达，就将对应位置标记为1，表示已经到达，避免重复计算。
+从(0,0)开始，如果可以到达，则可以到达的个数为 (1 + 上下左右方向) 可以到达的个数。
+public class Solution {
+    public int movingCount(int threshold, int rows, int cols){
+        byte[][] flag = new byte[rows][cols];
+        return count( threshold, 0, 0, rows, cols, flag);
+    }
+    private int count(int k, int R, int C, int rows, int cols, byte[][] flag){
+        if(R > rows-1 || R<0 || C>cols-1 || C<0 || numberSum(R,C)>k || flag[R][C]==1)
+            return 0;
+        flag[R][C] = 1;
+        return 1 + count(k, R-1, C, rows, cols, flag) +
+                   count(k, R+1, C, rows, cols, flag) +
+                   count(k, R, C-1, rows, cols, flag) +
+                   count(k, R, C+1, rows, cols, flag);
+    }
+    private int numberSum(int R,int C){
+        int sum1 = 0;
+        int sum2 = 0;
+        while(R>0){
+            sum1 += (R%10);
+            R /= 10;
+        }
+        while(C>0){
+            sum2 += (C%10);
+            C /= 10;
+        }
+        return sum1 + sum2;
+    }
+}
+```
 
 
 
