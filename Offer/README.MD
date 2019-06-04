@@ -2774,3 +2774,87 @@ public class Solution {
     }
 }
 ```
+* 树的子结构
+```java
+输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
+
+当root1和root2都不为null时，才开始判断，否则直接为false
+如果在root1中找到了对应的root2根节点，则进入匹配判断，如果完全匹配则返回true。
+如果匹配不上，那么就到root1的左子树去找，如果还匹配不上，就到root1的右子树去找。
+匹配的逻辑是：
+如果root2遍历完了，说明匹配完了，返回true;
+如果root1遍历完了，说明匹配不够，返回false;
+如果root1.val!=root2.val，返回false;
+如果当前节点的值相等，那么还需要再去判断左子树和右子树，每个节点都相等才返回true。
+
+方法一：递归
+import java.util.*;
+public class Solution {
+    public boolean HasSubtree(TreeNode root1,TreeNode root2) {
+        boolean flag = false;
+        // 当root1和root2都不为null时，才开始判断
+        if(root1!=null && root2!=null){
+            if(root1.val==root2.val){ // 找到了对应的根节点，进入判断
+                flag=match(root1,root2);
+            }
+            if(!flag){ // 匹配失败，到root1的左子树去找
+                flag=HasSubtree(root1.left,root2);
+            }
+            if(!flag){ // 匹配失败，再到root2的右子树去找
+                flag=HasSubtree(root1.right,root2);
+            }
+        }
+        return flag;
+    }
+    private boolean match(TreeNode root1,TreeNode root2){
+        if(root2==null){
+            return true;
+        }
+        if(root1==null){
+            return false;
+        }
+        if(root1.val!=root2.val)
+            return false;
+        return match(root1.left,root2.left) && match(root1.right , root2.right);
+    }
+}
+
+方法二：遍历root1
+import java.util.*;
+public class Solution {
+    public boolean HasSubtree(TreeNode root1,TreeNode root2) {
+        if(root2==null)
+            return false;
+        Stack<TreeNode> stack1 = new Stack<>();
+        if(root1!=null){
+            stack1.push(root1);
+            while(!stack1.isEmpty()){
+                root1 = stack1.pop();
+                if(root1.val==root2.val){ // 找到对应的根节点
+                    if(match(root1,root2)){ // 进入判断，匹配上了就直接返回true
+                        return true;
+                    }
+                }
+                if(root1.right!=null){ // 否则继续遍历root1，再找下一个与root2相等的节点
+                    stack1.push(root1.right);
+                }
+                if(root1.left!=null){
+                    stack1.push(root1.left);
+                }
+            }
+        }
+        return false;
+    }
+    private boolean match(TreeNode root1,TreeNode root2){
+        if(root2==null){
+            return true;
+        }
+        if(root1==null){
+            return false;
+        }
+        if(root1.val!=root2.val)
+            return false;
+        return match(root1.left,root2.left) && match(root1.right , root2.right);
+    }
+}
+```
