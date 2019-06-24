@@ -2959,3 +2959,30 @@ public class Solution {
     }
 }
 ```
+* 从上往下打印二叉树
+```java
+从上往下打印出二叉树的每个节点，同层节点从左至右打印。
+
+利用队列FIFO的特性，创建一个队列，然后依次添加左、右子节点。
+从队列中取的时候，就相当于在每一层从左到右的取节点
+public class Solution {
+    public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
+        ArrayList<Integer> list = new ArrayList<>();
+        if(root==null)
+            return list;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            root = queue.poll();
+            if(root.left!=null){
+                queue.offer(root.left);
+            }
+            if(root.right!=null){
+                queue.offer(root.right);
+            }
+            list.add(root.val);
+        }
+        return list;
+    }
+}
+```
