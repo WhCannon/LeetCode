@@ -2986,3 +2986,32 @@ public class Solution {
     }
 }
 ```
+* 二叉搜索树的后序遍历序列
+```java
+输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。
+假设输入的数组的任意两个数字都互不相同。
+
+后序遍历的最后一个节点是根节点，前面的可以分为2部分，大于根节点（右子树）和小于根节点（左子树）。
+左、右子树的后序遍历也符合这个规律，即最后一个节点是根节点，前面的分为大、小两部分。
+根据分析，这可以是一个递归。
+public class Solution {
+    public boolean VerifySquenceOfBST(int [] sequence) {
+        if(sequence==null || sequence.length==0)
+            return false;
+        return post(sequence,0,sequence.length-1);       
+    }   
+    private boolean post(int[] arr, int L, int R){
+        if(L>=R)
+            return true;
+        int index = R - 1 ;
+        while( (index>=L) && (arr[index]>arr[R]) ){ //找到左子树的根节点（全部小于根节点）
+                index--;
+        }
+        for(int j=L; j<index; j++){ //从L-index是左子树的范围，应满足全部小于根节点
+            if(arr[j] > arr[R])
+                return false;
+        }
+        return post(arr,L,index) && post(arr,index+1,R-1); //递归判断左、右子树
+    }
+}
+```
