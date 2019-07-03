@@ -3076,3 +3076,85 @@ public class Solution {
     }
 }
 ```
+* 二叉搜索树与双向链表
+```java
+输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。
+要求不能创建任何新的结点，只能调整树中结点指针的指向。
+
+非递归 中序遍历
+public class Solution {
+    public TreeNode Convert(TreeNode pRootOfTree) {
+        if(pRootOfTree ==null)
+            return pRootOfTree;
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        TreeNode head = null; // 用于返回链表的头结点
+        TreeNode pre = null;  // 用于保存遍历过程中的前一个节点
+        while (!stack.isEmpty() || pRootOfTree != null) {
+            if (pRootOfTree != null) {
+                stack.push(pRootOfTree); 
+                pRootOfTree = pRootOfTree.left; 
+            } else {
+                pRootOfTree = stack.pop();
+                if(head==null){  // 保存链表的头结点
+                    head = pRootOfTree;
+                    pre = pRootOfTree;
+                }else{
+                    pre.right = pRootOfTree;
+                    pRootOfTree.left = pre;
+                    pre = pRootOfTree;
+                }
+                pRootOfTree = pRootOfTree.right;
+            }
+        }
+        return head;
+    }
+}
+
+递归版：
+public class Solution {
+    TreeNode pre = null;
+    TreeNode head = null;
+    public TreeNode Convert(TreeNode pRootOfTree) {
+        if(pRootOfTree ==null)
+            return pRootOfTree;
+        inOrder(pRootOfTree);
+        return head;
+    }
+    private void inOrder(TreeNode p){
+        if(p == null)
+            return;
+        inOrder(p.left);
+        if(head == null){
+            head = p;
+            pre = p;
+        }else{
+            pre.right = p;
+            p.left = pre;
+            pre = p;
+        }
+        inOrder(p.right);
+    }
+}
+
+递归优化：
+先遍历左子树的话，其链表生成的方向是小—>大，在链表生成完毕之后，记录指向的便是链表中的最后一个节点，
+也就是最大的那个节点，需要使用一个变量来记录链表的头结点。
+而先遍历右子树的话，其链表生成的方向是大---->小，在链表生成完毕之后，记录指向的便是链表中的最开始一个节点，
+也就是最小的那个节点。这样就可以少了一个记录。
+public class Solution {
+    TreeNode head= null;
+    public TreeNode Convert(TreeNode pRootOfTree) {
+        if(pRootOfTree == null) return pRootOfTree;       
+        Convert(pRootOfTree.right);
+        if(head== null){
+            head= pRootOfTree;
+        } else {
+            head.left = pRootOfTree;
+            pRootOfTree.right = head;
+            head= pRootOfTree;
+        }
+        Convert(pRootOfTree.left);   
+        return head;
+    }
+}
+```
