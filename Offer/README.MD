@@ -3158,3 +3158,50 @@ public class Solution {
     }
 }
 ```
+* 二叉树的深度
+```java
+输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，
+最长路径的长度为树的深度。
+
+递归：
+public class Solution {
+    public int TreeDepth(TreeNode root) {
+        if(root == null)
+            return 0;
+        if(root.left==null && root.right==null)
+            return 1;
+        int left = TreeDepth(root.left);
+        int right = TreeDepth(root.right);
+        return left>right? left+1 : right+1;
+    }
+}
+
+层序遍历
+import java.util.*;
+public class Solution {
+    public int TreeDepth(TreeNode root) {
+        if(root == null)
+            return 0;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        int depth = 0; // 深度
+        int count = 0; // 当前层已遍历的节点数
+        int nextCount = 1; // 当前层节点总数
+        boolean flag = true;
+        while(!queue.isEmpty()){
+            root = queue.poll();
+            count++;
+            if(root.left!=null)
+                queue.offer(root.left);
+            if(root.right!=null)
+                queue.offer(root.right);
+            if(count == nextCount){ // 本层节点已经遍历完毕
+                nextCount = queue.size(); //下一层的节点数
+                count = 0;
+                depth++;
+            }
+        }
+        return depth;
+    }
+}
+```
