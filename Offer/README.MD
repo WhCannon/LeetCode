@@ -3205,3 +3205,50 @@ public class Solution {
     }
 }
 ```
+* 平衡二叉树
+```java
+输入一棵二叉树，判断该二叉树是否是平衡二叉树。
+
+后序遍历：从下往上遍历，如果子树是平衡二叉树，则返回子树的高度
+如果发现子树不是平衡二叉树，则直接停止遍历，这样至多只对每个结点访问一次。
+
+public class Solution {
+    private boolean flag = true;
+    public boolean IsBalanced_Solution(TreeNode root) {
+        getDepth(root);
+        return flag;
+    }
+    private int getDepth(TreeNode root){
+        if(root==null)
+            return 0;
+        int left = getDepth(root.left);
+        int right = getDepth(root.right);
+        if(Math.abs(left-right)>1)
+            flag=false;
+        return right>left? right+1 : left+1;
+    }
+}
+
+或者：
+public class Solution {
+    public boolean IsBalanced_Solution(TreeNode root) {
+        boolean[] res = new boolean[1];
+        res[0] = true;
+        getDepth(root,1,res);
+        return res[0];
+    }
+    private int getDepth(TreeNode root,int level,boolean[] res){
+        if(root == null)
+            return level;
+        int L = getDepth(root.left,level+1,res);
+        if(!res[0])
+            return level;
+        int R = getDepth(root.right,level+1,res);
+        if(!res[0])
+            return level;
+        if(Math.abs(L-R)>1)
+            res[0]=false;
+        return Math.max(L,R);
+    }
+}
+```
