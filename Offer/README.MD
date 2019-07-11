@@ -3252,3 +3252,44 @@ public class Solution {
     }
 }
 ```
+* 二叉树的下一个节点
+```java
+给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。
+注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
+
+根据中序遍历的规则
+1、如果一个结点有右子树，那它下一个结点就是右子树的最左结点。
+2、如果没有右子树，则需要判断它有没有父结点并且是不是父结点的左子结点，是的话，就找到了。
+不是则要不断地向上找，直到某一个结点是其父结点的左子结点，返回这个父结点即为所求。
+public class TreeLinkNode {
+    int val;
+    TreeLinkNode left = null;
+    TreeLinkNode right = null;
+    TreeLinkNode next = null;
+    TreeLinkNode(int val) {
+        this.val = val;
+    }
+}
+public class Solution {
+    public TreeLinkNode GetNext(TreeLinkNode pNode){
+        if(pNode==null)
+            return null;
+        //右子树不为null，找到右子树最左节点
+        if(pNode.right!=null){ 
+            pNode=pNode.right;
+            while(pNode.left!=null){
+                pNode = pNode.left;
+            }
+            return pNode;
+        }
+        //右子树为null的情况
+        //向上遍历，直到当前节点为父节点的left，返回这个父节点
+        while(pNode.next!=null){ 
+            if(pNode.next.left==pNode)
+                return pNode.next;
+            pNode=pNode.next;
+        }
+        return null;
+    }
+}
+```
