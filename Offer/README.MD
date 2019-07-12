@@ -3293,3 +3293,65 @@ public class Solution {
     }
 }
 ```
+* 对称的二叉树
+```java
+请实现一个函数，用来判断一颗二叉树是不是对称的。
+注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。
+
+递归判断：
+1、左子树的左子树和右子树的右子树是否相同
+2、左子树的右子树和右子树的左子树是否相同
+/*
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+    public TreeNode(int val) {
+        this.val = val;
+    }
+}
+*/
+public class Solution {
+    boolean isSymmetrical(TreeNode pRoot){
+        if(pRoot==null)
+            return true;
+        return subRoot(pRoot.left,pRoot.right);
+    }
+    boolean subRoot(TreeNode left,TreeNode right){
+        if(left==null)
+            return right==null;
+        if(right==null)
+            return false;
+        if(left.val!=right.val)
+            return false;
+        return subRoot(left.left,right.right)&&subRoot(left.right,right.left);
+    }
+}
+
+非递归：
+与递归的思路相同，成对的入栈、出栈以及判断
+public class Solution {
+    boolean isSymmetrical(TreeNode pRoot){
+        if(pRoot==null)
+            return true;
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(pRoot.left);
+        stack.push(pRoot.right);
+        while(!stack.isEmpty()){
+            TreeNode right = stack.pop(); //成对取出
+            TreeNode left = stack.pop();
+            if(left==null && right==null)
+                continue;
+            if(left==null || right==null)
+                return false;
+            if(left.val!=right.val)
+                return false;
+            stack.push(left.left); //成对放入，左的左、右的右
+            stack.push(right.right);
+            stack.push(left.right); //成对放入，左的右、右的左
+            stack.push(right.left);
+        }
+        return true;
+    }
+}
+```
