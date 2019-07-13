@@ -3355,3 +3355,99 @@ public class Solution {
     }
 }
 ```
+* 之字形打印二叉树
+```java
+请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，
+第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。
+
+使用2个栈，stackA用来从左到右遍历，stackB用来从右到左的遍历：
+import java.util.*;
+public class Solution {
+    public ArrayList<ArrayList<Integer> > Print(TreeNode pRoot) {
+        Stack<TreeNode> stackA = new Stack<>();
+        Stack<TreeNode> stackB = new Stack<>();
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        if(pRoot==null)
+            return res;
+        stackA.push(pRoot);
+        TreeNode temp = null;
+        while(!stackA.isEmpty() || !stackB.isEmpty()){
+            ArrayList<Integer> listA = new ArrayList<>();
+            while(!stackA.isEmpty()){ // 从左到右遍历
+                temp = stackA.pop();
+                listA.add(temp.val);
+                if(temp.left!=null)  // 将子节点先左、后右的加入stackB中，这样stackB弹出的时候就是从右到左
+                    stackB.push(temp.left);
+                if(temp.right!=null)
+                    stackB.push(temp.right);
+                if(stackA.isEmpty()){
+                    res.add(listA);
+                }
+            }
+           ArrayList<Integer> listB = new ArrayList<>();
+           while(!stackB.isEmpty()){
+                temp = stackB.pop(); // 从右到左遍历
+               listB.add(temp.val);
+                if(temp.right!=null) // 与上面的顺序相反
+                    stackA.push(temp.right);
+                if(temp.left!=null)
+                    stackA.push(temp.left);
+                if(stackB.isEmpty()){
+                    res.add(listB);
+                }
+            }
+        }
+        return res;
+    }
+}
+
+写法2，原理是一样的：
+import java.util.*;
+public class Solution {
+    public ArrayList<ArrayList<Integer> > Print(TreeNode pRoot) {
+        ArrayList<ArrayList<Integer>> list = new ArrayList<ArrayList<Integer>>();
+        if(pRoot==null)
+            return list;
+        int layer = 1;
+        //s1存奇数层节点
+        Stack<TreeNode> s1 = new Stack<TreeNode>();
+        s1.push(pRoot);
+        //s2存偶数层节点
+        Stack<TreeNode> s2 = new Stack<TreeNode>();
+        TreeNode node = null;
+        while (!s1.empty() || !s2.empty()) {
+            if (layer%2 != 0) {
+                ArrayList<Integer> temp = new ArrayList<Integer>();
+                while (!s1.empty()) {
+                    node = s1.pop();
+                    temp.add(node.val);
+                    if(node.left!=null)
+                        s2.push(node.left);
+                    if(node.right!=null){
+                        s2.push(node.right);
+                    }
+                }
+                if (!temp.isEmpty()) {
+                    list.add(temp);
+                    layer++;
+                }
+            } else {
+                ArrayList<Integer> temp = new ArrayList<Integer>();
+                while (!s2.empty()) {
+                    node = s2.pop();
+                    temp.add(node.val);
+                    if(node.right!=null)
+                        s1.push(node.right);
+                    if(node.left!=null)
+                        s1.push(node.left);
+                    }
+                if (!temp.isEmpty()) {
+                    list.add(temp);
+                    layer++;
+                }
+            }
+        }
+        return list;
+    }
+}
+```
