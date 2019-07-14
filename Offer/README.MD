@@ -3451,3 +3451,35 @@ public class Solution {
     }
 }
 ```
+* 把二叉树打印成多行
+```java
+从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。
+其实就是层序遍历
+
+利用队列，每个节点先加 left ，再加 right 进队列，这样下一层遍历时就是从左到右的顺序：
+public class Solution {
+    ArrayList<ArrayList<Integer> > Print(TreeNode pRoot) {
+        ArrayList<ArrayList<Integer> > res = new ArrayList<ArrayList<Integer> >();
+        if(pRoot==null)
+            return res;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(pRoot);
+        int count; //记录每层有几个节点
+        TreeNode temp;
+        while(!queue.isEmpty()){
+            count = queue.size();
+            ArrayList<Integer> list = new ArrayList<>();
+            for(;count>0;count--){ //count==0时这一层就遍历完了
+                temp = queue.poll();
+                list.add(temp.val);
+                if(temp.left!=null)
+                    queue.offer(temp.left);
+                if(temp.right!=null)
+                    queue.offer(temp.right);
+            }
+            res.add(list);
+        }
+        return res;
+    }
+}
+```
