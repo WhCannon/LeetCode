@@ -3483,3 +3483,96 @@ public class Solution {
     }
 }
 ```
+* 序列化二叉树
+```java
+原理还是根据二叉树的遍历过程，用 ！ 来分隔每个节点的值（方便反序列化），
+如果是空节点，就使用 # 来替代。
+
+先序的序列化与反序列化：
+import java.util.*;
+public class Solution {
+    String Serialize(TreeNode root) { // 先序的序列化
+        StringBuilder sb = new StringBuilder();
+        if(root==null)
+            return "#!";
+        sb.append(root.val+"!");
+        sb.append(Serialize(root.left));
+        sb.append(Serialize(root.right));
+        return sb.toString();
+  }
+    TreeNode Deserialize(String str) { // 先序的反序列化
+        String[] values = str.split("!");
+        Queue<String> queue = new LinkedList<>();
+        for(int i=0;i<values.length;i++){
+            queue.offer(values[i]);
+        }
+        return buildTree(queue);
+  }
+    TreeNode buildTree(Queue<String> queue){ // 建立树的过程
+        String value = queue.poll();
+        if(value.equals("#"))
+            return null;
+        TreeNode head = new TreeNode(Integer.parseInt(value));
+        head.left = buildTree(queue);
+        head.right = buildTree(queue);
+        return head;
+    }
+}
+
+层序的序列化与反序列化
+import java.util.*;
+public class Solution {
+    String Serialize(TreeNode root) {
+        if (root == null) {
+            return "#!";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(root.val + "!");
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            root = queue.poll();
+            if (root.left != null) {
+                sb.append(root.left.val + "!");
+                queue.offer(root.left);
+            } else {
+                sb.append("#!");
+            }
+            if (root.right != null) {
+                sb.append(root.right.val + "!");
+                queue.offer(root.right);
+            } else {
+                sb.append("#!");
+            }
+        }
+        return sb.toString();   
+  }
+    TreeNode Deserialize(String str) {
+        String[] values = str.split("!");
+        TreeNode head = generateNodeByString(values[0]);
+        Queue<TreeNode> queue = new LinkedList<>();
+        int index = 1;
+        if (head != null) {
+            queue.offer(head);
+        }
+        TreeNode node = null;
+        while (!queue.isEmpty()) {
+            node = queue.poll();
+            node.left = generateNodeByString(values[index++]);
+            node.right = generateNodeByString(values[index++]);
+            if (node.left != null) {
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+            }
+        }
+        return head;
+  }
+  TreeNode  generateNodeByString(String val){
+        if(val.equals("#"))
+            return null;
+        return new TreeNode(Integer.parseInt(val));
+    }
+}
+```
